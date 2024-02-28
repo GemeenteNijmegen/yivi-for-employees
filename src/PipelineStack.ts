@@ -30,7 +30,7 @@ export class PipelineStack extends Stack {
       configuration: props.configuration,
     }));
 
-    // pipeline.addStage(new AppStage(this, `${Statics.projectName}-containers`, {
+    // pipeline.addStage(new ContainerStage(this, `${Statics.projectName}-containers`, {
     //   env: props.configuration.deploymentEnvironment,
     //   configuration: props.configuration,
     // }));
