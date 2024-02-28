@@ -58,7 +58,9 @@ export interface Configuration {
    */
   yiviVersionNumber: string;
   /**
-   * Yivi (irmago) version binary checksum
+   * Checksum of the IRMA GO executable
+   * You can obtain the checksum by downloading the irma-linux-amd64 binary release and calculating it locally
+   * You can create the checksum by executing `shasum -a 256 ~/Downloads/irma-linux-amd643` (on mac)
    */
   yiviVersionChecksum: string;
   /**
@@ -85,18 +87,18 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
         name: 'microsoft',
         title: 'Gemeente Nijmegen',
         cssClass: 'btn-microsoft',
-        clientId: 'todo',
-        clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:049753832279:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-ONw7re',
+        clientId: 'CVotFJe53ZomCfbetVSiykdcqNgzSiIt',
+        clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:049753832279:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-wiUd8V',
         applicationBaseUrl: 'https://yivi-voor-medewerkers.sandbox-marnix.csp-nijmegen.nl',
         authenticationBaseUrl: 'https://authenticatie-accp.nijmegen.nl',
         scope: 'openid idp_scoping:microsoft idp_scoping:simulator',
         immediateRedirect: false,
       },
     ],
-    yiviVersionNumber: '',
-    yiviVersionChecksum: '',
-    alpineLinuxVersion: '',
-    useSpotInstances: false,
+    yiviVersionNumber: 'v0.15.1',
+    yiviVersionChecksum: '27182cc8203234eca14b60fe488c1157fce0d1385410a83216436418d5b03a52',
+    alpineLinuxVersion: '3.19.1',
+    useSpotInstances: true,
   },
 };
 

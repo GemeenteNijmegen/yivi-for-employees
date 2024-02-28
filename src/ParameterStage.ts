@@ -26,6 +26,9 @@ export class ParameterStack extends Stack {
     new Secret(this, 'yivi-container-secret-1', {
       description: 'The api key to use the irmago API',
       secretName: Statics.secretsApiKey,
+      generateSecretString: {
+        excludePunctuation: true, // [a-zA-Z0-9] only
+      },
     });
 
     new Secret(this, 'yivi-container-secret-2', {
