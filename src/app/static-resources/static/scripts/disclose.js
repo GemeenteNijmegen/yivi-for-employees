@@ -35,7 +35,12 @@ if (yiviFullSessionEncoded) {
     });
 
     yiviClient.start()
-        .then(() => console.log('Disclosing completed!'))
+        .then(() => {
+            console.log('Disclosing completed!');
+            setTimeout(() => {
+                window.location.href = window.location.href + '?result=true';
+            }, 1000);
+        })
         .catch((err) => {
             document.getElementById('retry-button').classList.remove('hidden');
             console.error("Could not complete issuing session", err);

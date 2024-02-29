@@ -90,7 +90,7 @@ export class ContainerStack extends Stack {
       },
     });
     session.addMethod('POST', sessionIntegration, {
-      authorizationType: apigateway.AuthorizationType.IAM,
+      authorizationType: apigateway.AuthorizationType.NONE,
       requestParameters: {
         'method.request.header.irma-authorization': true,
       },
@@ -110,7 +110,7 @@ export class ContainerStack extends Stack {
       },
     });
     result.addMethod('GET', resultIntegration, {
-      authorizationType: apigateway.AuthorizationType.IAM,
+      authorizationType: apigateway.AuthorizationType.NONE,
       requestParameters: {
         'method.request.header.irma-authorization': true,
       },
