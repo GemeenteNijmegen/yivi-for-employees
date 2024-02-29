@@ -32,7 +32,7 @@ export class ContainerStack extends Stack {
     super(scope, id, props);
 
     this.hostedzone = this.importHostedZone();
-    this.vpc = this.setupVpc();
+    this.vpc = this.setupVpc(props);
 
     const cluster = this.constructEcsCluster();
     const loadbalancer = this.setupLoadbalancer();
@@ -120,15 +120,22 @@ export class ContainerStack extends Stack {
 
   }
 
-  setupVpc() {
+  setupVpc(props: ContainerStackProps) {
 
     // Import vpc config (only public and private subnets)
     const vpcId = ssm.StringParameter.valueForStringParameter(this, '/landingzone/vpc/vpc-id');
     const availabilityZones = [0, 1, 2].map(i => Fn.select(i, Fn.getAzs(Aws.REGION)));
-    const publicSubnetRouteTableIds = Array(3).fill(ssm.StringParameter.valueForStringParameter(this, '/landingzone/vpc/route-table-public-subnets-id'));
     const privateSubnetRouteTableIds = [1, 2, 3].map(i => ssm.StringParameter.valueForStringParameter(this, `/landingzone/vpc/route-table-private-subnet-${i}-id`));
     const publicSubnetIds = [1, 2, 3].map(i => ssm.StringParameter.valueForStringParameter(this, `/landingzone/vpc/public-subnet-${i}-id`));
     const privateSubnetIds = [1, 2, 3].map(i => ssm.StringParameter.valueForStringParameter(this, `/landingzone/vpc/private-subnet-${i}-id`));
+
+    let publicSubnetRouteTableIds = undefined;
+    if (props.configuration.branch.includes('sandbox')) {
+      // Why is this different than in non sandbox vpcs?
+      publicSubnetRouteTableIds = Array(3).fill(ssm.StringParameter.valueForStringParameter(this, '/platformunited/landing-zone/vpc/route-table-public-subnets-id'));
+    } else {
+      publicSubnetRouteTableIds = Array(3).fill(ssm.StringParameter.valueForStringParameter(this, '/landingzone/vpc/route-table-public-subnets-id'));
+    }
 
     const vpc = ec2.Vpc.fromVpcAttributes(this, 'vpc', {
       vpcId,
