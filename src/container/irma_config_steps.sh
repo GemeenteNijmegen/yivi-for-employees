@@ -10,7 +10,7 @@ sed -i -e "s/IRMA_TOKEN/$IRMA_TOKEN/g" /storage/irma/irma_config.json
 sed -i -e "s/IRMA_GW_URL/https:\/\/$IRMA_GW_URL/g" /storage/irma/irma_config.json
 
 mkdir /storage/irma/privatekeys
-echo "$IRMA_GEMEENTE_PRIVKEY" > /storage/irma/privatekeys/pbdf.gemeente.xml
+echo "$IRMA_GEMEENTE_PRIVKEY" > /storage/irma/privatekeys/pbdf.nijmegen.xml
 
 echo "Starting irma server with custom config file"
 irma server --config /storage/irma/irma_config.json
