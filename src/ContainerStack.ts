@@ -34,17 +34,17 @@ export class ContainerStack extends Stack {
     this.hostedzone = this.importHostedZone();
     this.vpc = this.setupVpc();
 
-    const cluster = this.constructEcsCluster();
+    this.constructEcsCluster();
     const loadbalancer = this.setupLoadbalancer();
-    const listner = this.setupListner(loadbalancer);
+    this.setupListner(loadbalancer);
+    this.setupVpcLink(loadbalancer);
 
     // API Gateway and access to VPC
     this.api = this.setupApiGateway();
-    const vpclink = this.setupVpcLink(loadbalancer);
 
     // Setup services and api gateway routes
-    this.addIssueServiceAndIntegration(cluster, props, listner);
-    this.setupApiRoutes(vpclink);
+    // this.addIssueServiceAndIntegration(cluster, props, listner);
+    // this.setupApiRoutes(vpclink);
 
   }
 
@@ -171,7 +171,7 @@ export class ContainerStack extends Stack {
   setupApiGateway() {
 
     const cert = new acm.Certificate(this, 'api-cert', {
-      domainName: this.hostedzone.zoneName,
+      domainName: `api.${this.hostedzone.zoneName}`,
       validation: acm.CertificateValidation.fromDns(this.hostedzone),
     });
 
@@ -183,7 +183,7 @@ export class ContainerStack extends Stack {
       description: 'API gateway for yivi-brp issue server',
       domainName: {
         certificate: cert,
-        domainName: this.hostedzone.zoneName,
+        domainName: `api.${this.hostedzone.zoneName}`,
         securityPolicy: apigateway.SecurityPolicy.TLS_1_2,
       },
       //policy: this.setupApiGatewayPolicy(props),
@@ -353,7 +353,7 @@ export class ContainerStack extends Stack {
         IRMA_GEMEENTE_PRIVKEY: ecs.Secret.fromSecretsManager(privateKey),
       },
       environment: {
-        IRMA_GW_URL: this.hostedzone.zoneName, // protocol prefix is added in the container
+        IRMA_GW_URL: `api.${this.hostedzone.zoneName}`, // protocol prefix is added in the container
       },
     });
 

@@ -3,6 +3,7 @@ import { Stack, StackProps, Tags, pipelines, CfnParameter, Aspects } from 'aws-c
 import { Construct } from 'constructs';
 import { AppStage } from './AppStage';
 import { Configurable } from './Configuration';
+import { ContainerStage } from './ContainerStage';
 import { ParameterStage } from './ParameterStage';
 import { Statics } from './Statics';
 
@@ -30,10 +31,10 @@ export class PipelineStack extends Stack {
       configuration: props.configuration,
     }));
 
-    // pipeline.addStage(new ContainerStage(this, `${Statics.projectName}-containers`, {
-    //   env: props.configuration.deploymentEnvironment,
-    //   configuration: props.configuration,
-    // }));
+    pipeline.addStage(new ContainerStage(this, `${Statics.projectName}-containers`, {
+      env: props.configuration.deploymentEnvironment,
+      configuration: props.configuration,
+    }));
 
   }
 
