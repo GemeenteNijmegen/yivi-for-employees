@@ -15,7 +15,7 @@ export class StorageStack extends Stack {
     Tags.of(this).add('Project', Statics.projectName);
 
     const table = new Table(this, 'user-table', {
-      partitionKey: { name: 'userhash', type: AttributeType.STRING },
+      partitionKey: { name: 'pk', type: AttributeType.STRING },
       billingMode: BillingMode.PAY_PER_REQUEST,
       timeToLiveAttribute: 'ttl',
       removalPolicy: RemovalPolicy.RETAIN,

@@ -2,8 +2,9 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Response } from '@gemeentenijmegen/apigateway-http/lib/V2/Response';
 import { Session } from '@gemeentenijmegen/session';
 import { render } from '@gemeentenijmegen/webapp';
-import { handlerTypeMap } from './RequestTypeHandler';
+import { RequestTypeHandler, handlerTypeMap } from './RequestTypeHandler';
 import * as dislosureTemplate from './templates/disclose.mustache';
+import * as confirmationTemplate from './templates/discloseResultConfirmed.mustache';
 import { YiviApi } from '../util/YiviApi';
 
 const yivi = new YiviApi();
@@ -11,7 +12,7 @@ const init = yivi.init();
 
 export interface DiscloseRequestHandlerRequest {
   cookies: string;
-  result: boolean;
+  action: string;
   type?: string;
 }
 
@@ -31,17 +32,19 @@ export class DiscloseRequestHandler {
     });
     const hasSession = await session.init();
 
-    if (params.result && hasSession !== false) {
-      return this.handleDisclosureResultRequest(session, params);
-    }
-
-    return this.handleStartDisclosureRequest(session, params);
-  }
-
-  private async handleStartDisclosureRequest(session: Session, params: DiscloseRequestHandlerRequest) {
-
     const handler = getHandlerForType(this.dynamoDBClient, params.type);
 
+
+    if (params.action === 'result' && hasSession !== false) {
+      return this.handleDisclosureResultRequest(handler, session);
+    } else if (params.action === 'confirm' && hasSession !== false) {
+      return this.handleConfirmationRequest(handler, session);
+    }
+    return this.handleStartDisclosureRequest(handler, session);
+  }
+
+  private async handleStartDisclosureRequest(handler: RequestTypeHandler, session: Session) {
+    console.log('Handling start disclosure request');
     // 1. start yivi session
     let base64YiviSession = undefined;
     let requestorToken = undefined;
@@ -86,9 +89,8 @@ export class DiscloseRequestHandler {
 
   }
 
-  private async handleDisclosureResultRequest(session: Session, params: DiscloseRequestHandlerRequest) {
-
-    const handler = getHandlerForType(this.dynamoDBClient, params.type);
+  private async handleDisclosureResultRequest(handler: RequestTypeHandler, session: Session) {
+    console.log('Handling disclosure result request');
 
     // 1. Get requestorToken from user session
     const requestorToken = session.getValue('token');
@@ -103,7 +105,7 @@ export class DiscloseRequestHandler {
       const response = await yivi.getSessionResult(requestorToken);
       validateDisclosureResponse(response);
 
-      result = handler.handleDisclosureRequest(response);
+      result = await handler.handleDisclosureRequest(response, session);
 
     } catch (err) {
       console.error(err);
@@ -123,6 +125,30 @@ export class DiscloseRequestHandler {
     const html = await render(data, template);
     return Response.html(html, 200, session.getCookie());
   }
+
+  private async handleConfirmationRequest(handler: RequestTypeHandler, session: Session) {
+    console.log('Handling confirmation request');
+
+    let message = undefined;
+    let error = undefined;
+    try {
+      message = await handler.confirmRequest(session);
+    } catch (err) {
+      console.error(err);
+      error = 'Er ging iets fout bij het opslaan van de gegevens';
+    }
+
+    const data = {
+      title: 'Confirmed',
+      shownav: false,
+      message: message,
+      error: error,
+    };
+
+    const html = await render(data, confirmationTemplate.default);
+    return Response.html(html, 200, session.getCookie());
+  }
+
 }
 
 

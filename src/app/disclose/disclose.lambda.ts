@@ -9,7 +9,7 @@ const requestHandler = new DiscloseRequestHandler(dynamoDBClient);
 function parseEvent(event: APIGatewayProxyEventV2) : DiscloseRequestHandlerRequest {
   return {
     cookies: event?.cookies?.join(';') ?? '',
-    result: event?.queryStringParameters?.result !== undefined,
+    action: event?.queryStringParameters?.action ?? 'start',
     type: event?.queryStringParameters?.type,
   };
 }
