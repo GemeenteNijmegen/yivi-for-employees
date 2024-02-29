@@ -1,6 +1,7 @@
 import { Webapp, Webpage } from '@gemeentenijmegen/webapp';
 import { Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { ITable, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
@@ -41,6 +42,10 @@ export class WebappStack extends Stack {
       zoneName: remoteHostedZone.get(Statics.ssmHostedZoneName),
     });
 
+    // Import user table
+    const userTableArn = StringParameter.valueForStringParameter(this, Statics.ssmUserTableArn);
+    const userTable = Table.fromTableArn(this, 'user-table', userTableArn);
+
     // OIDC client secret
     const clientSecret = Secret.fromSecretNameV2(this, 'oidc-client-secret', Statics.ssmOIDCClientSecret);
 
@@ -69,7 +74,7 @@ export class WebappStack extends Stack {
 
     // Add other pages!
     this.addIssuePage(webapp, props);
-    this.addDisclosurePage(webapp, props);
+    this.addDisclosurePage(webapp, props, userTable);
   }
 
   /**
@@ -98,11 +103,11 @@ export class WebappStack extends Stack {
    * Add a disclosure page to the webapp
    * @param webapp
    */
-  addDisclosurePage(webapp: Webapp, props: WebappStackProps) {
+  addDisclosurePage(webapp: Webapp, props: WebappStackProps, userTable: ITable) {
     const yiviApiKey = Secret.fromSecretNameV2(this, 'yivi-api-key-disclosure', Statics.secretsApiKey);
     const yiviApiHost = StringParameter.valueForStringParameter(this, Statics.yiviApiHost);
     const gnEmployeeAdGroup = StringParameter.valueForStringParameter(this, Statics.ssmGnEmployeeAdGroup);
-    const homeFunction = new Webpage(this, 'frontend-disclosure-function', {
+    const disclosureFunction = new Webpage(this, 'frontend-disclosure-function', {
       description: 'Frontend-disclosure lambda',
       apiFunction: DiscloseFunction,
       environment: {
@@ -110,10 +115,12 @@ export class WebappStack extends Stack {
         YIVI_API_HOST: yiviApiHost,
         YIVI_API_KEY_ARN: yiviApiKey.secretArn,
         GN_EMPLOYEE_AD_GROUP_UUID: gnEmployeeAdGroup,
+        USER_TABLE_NAME: userTable.tableName,
       },
     });
-    yiviApiKey.grantRead(homeFunction.lambda);
-    webapp.addPage('disclose', homeFunction, '/disclose');
+    userTable.grantReadWriteData(disclosureFunction.lambda);
+    yiviApiKey.grantRead(disclosureFunction.lambda);
+    webapp.addPage('disclose', disclosureFunction, '/disclose');
   }
 
   /**
