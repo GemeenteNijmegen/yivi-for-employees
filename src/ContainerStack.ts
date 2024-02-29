@@ -226,6 +226,7 @@ export class ContainerStack extends Stack {
     }
     const alias = new route53Targets.ApiGatewayDomain(api.domainName);
     new route53.ARecord(this, 'api-a-record', {
+      recordName: `api.${this.hostedzone.zoneName}`,
       zone: this.hostedzone,
       target: route53.RecordTarget.fromAlias(alias),
     });
