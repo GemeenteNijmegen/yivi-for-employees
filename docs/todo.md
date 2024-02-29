@@ -22,3 +22,29 @@
 - [ ] Toevoegen CNAME record certificaat yivi-voor-medewerkers.nijmegen.nl
 - [ ] Toevoegen CNAME record yivi-voor-medewerkers.nijmegen.nl
 
+
+
+
+## Koffie halen flow
+```mermaid
+sequenceDiagram
+  Frontend->>Disclose:/disclos?type=koffie
+  Disclose->>Yivi:start disclose session
+  Disclose->>Session:store session ptr
+  Yivi-->>Disclose:session ptr
+  Disclose-->>Frontend:qr code
+  Frontend->>Frontend:scan qr
+  Frontend->>Disclose:/disclose?type=koffie&action=result
+  Disclose->>Session:get session ptr
+  Session-->>Disclose: 
+  Disclose->>Yivi:get session result
+  Yivi-->>Disclose: 
+  Disclose->>Session:store user hash
+  Disclose->>UserTable:Get current number cups of coffee
+  UserTable-->>Disclose: 
+  Disclose-->>Frontend:result / confirmation page
+  Frontend->>Disclose: /disclose?type=koffie&action=confirm
+  Disclose->>Session:get user hash
+  Disclose->>UserTable:update current number cups of coffee (+1)
+  Disclose-->>Frontend:Show confirmation
+```

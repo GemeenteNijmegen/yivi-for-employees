@@ -85,7 +85,7 @@ export class DiscloseRequestHandler {
     const html = await render(data, dislosureTemplate.default);
     return Response.html(html, 200, session.getCookie());
 
-    // 3. User will be redirected to this page with the ?result flag by the frontend
+    // 3. User will be redirected to this page with the ?action=result flag by the frontend
 
   }
 
@@ -124,6 +124,8 @@ export class DiscloseRequestHandler {
     const template = handler.getResultTemplate();
     const html = await render(data, template);
     return Response.html(html, 200, session.getCookie());
+
+    // 5. If user confirms the user is redirected with the ?action=confirm flag
   }
 
   private async handleConfirmationRequest(handler: RequestTypeHandler, session: Session) {
