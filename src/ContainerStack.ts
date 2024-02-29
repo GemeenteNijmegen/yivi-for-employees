@@ -185,7 +185,7 @@ export class ContainerStack extends Stack {
     });
 
     const api = new apigateway.RestApi(this, 'api', {
-      description: 'API gateway for yivi-brp issue server',
+      description: 'API gateway for yivi-for-employees issue server',
       domainName: {
         certificate: cert,
         domainName: `api.${this.hostedzone.zoneName}`,
