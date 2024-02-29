@@ -39,6 +39,17 @@ export class YiviApi {
     return this.post('session', yiviIssueRequest, 'De YIVI sessie kon niet worden gestart.');
   }
 
+  async startDisclosureSession(disclose: any) {
+    const yiviIssueRequest = this.constructYiviDisclosureRequest(disclose);
+    return this.post('session', yiviIssueRequest, 'De YIVI sessie kon niet worden gestart.');
+  }
+
+  async getSessionResult() {
+    // TODO implement
+    // const yiviIssueRequest = this.();
+    // return this.post('session', yiviIssueRequest, 'De YIVI sessie kon niet worden gestart.');
+  }
+
   private getClient(): Axios {
     const client = axios.create({
       baseURL: `https://${this.host}`,
@@ -103,8 +114,22 @@ export class YiviApi {
 
     // Return the issue request
     return {
-      type: 'issuing',
-      credentials: mappedCards,
+      '@context': 'https://irma.app/ld/request/issuance/v2',
+      //type: 'issuing', // TODO check if above line works as well
+      'credentials': mappedCards,
+    };
+  }
+
+
+  /**
+   * Construct the disclosure request
+   * @param disclose See https://irma.app/docs/session-requests/#disclosure-requests
+   * @returns
+   */
+  private constructYiviDisclosureRequest(disclose: any) {
+    return {
+      '@context': 'https://irma.app/ld/request/disclosure/v2',
+      'disclose': disclose,
     };
   }
 
