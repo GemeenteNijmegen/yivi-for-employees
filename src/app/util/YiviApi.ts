@@ -21,7 +21,7 @@ export class YiviApi {
     if (!process.env.YIVI_API_KEY_ARN || !process.env.YIVI_API_HOST) {
       throw Error('Clould not initialize YIVI API client');
     }
-    this.host = await AWS.getParameter(process.env.YIVI_API_HOST);
+    this.host = process.env.YIVI_API_HOST;
     this.apiKey = await AWS.getSecret(process.env.YIVI_API_KEY_ARN);
   }
 
