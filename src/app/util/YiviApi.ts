@@ -132,7 +132,6 @@ export class YiviApi {
     // Return the issue request
     return {
       '@context': 'https://irma.app/ld/request/issuance/v2',
-      //type: 'issuing', // TODO check if above line works as well
       'credentials': mappedCards,
     };
   }

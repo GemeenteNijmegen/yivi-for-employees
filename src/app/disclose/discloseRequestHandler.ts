@@ -96,10 +96,15 @@ export class DiscloseRequestHandler {
     let result = undefined;
     let error = undefined;
     try {
-      result = await yivi.getSessionResult(requestorToken);
-      if (result) {
-        throw new Error('Error response from yivi api client: result');
-      }
+      const response = await yivi.getSessionResult(requestorToken);
+      validateDisclosureResponse(response);
+
+      const disclosedAttributeBsn = response.disclosed[0][0];
+      result = {
+        attr: disclosedAttributeBsn.id,
+        value: disclosedAttributeBsn.rawvalue,
+      };
+
     } catch (err) {
       console.error(err);
       error = 'Er is iets fout gegaan bij het checken van de medewerkersgegevens via de Yivi app. Probeer het later opnieuw.';
@@ -117,5 +122,18 @@ export class DiscloseRequestHandler {
     // render page
     const html = await render(data, dislosureTemplate.default);
     return Response.html(html, 200, session.getCookie());
+  }
+}
+
+
+function validateDisclosureResponse(result: any) {
+  if (!result || result.error) {
+    throw new Error('Error response from yivi api client: result');
+  }
+  if (!result.proofStatus || result.proofStatus !== 'VALID') {
+    throw new Error('Invalid proof received from server');
+  }
+  if (!result.disclosed) {
+    throw new Error('No data is disclosed in the session');
   }
 }
