@@ -46,7 +46,7 @@ export class YiviApi {
 
   async getSessionResult(requestorToken: string) {
     const path = `session/${requestorToken}/result`;
-    return this.post(path, undefined, 'De YIVI sessie kon niet worden gestart.');
+    return this.get(path, 'De YIVI sessie kon niet worden gestart.');
   }
 
   private getClient(): Axios {
@@ -67,6 +67,24 @@ export class YiviApi {
     try {
       console.time('request to ' + path);
       const resp = await client.post(path, data);
+      if (resp.data) {
+        console.timeEnd('request to ' + path);
+        return resp.data;
+      }
+      throw Error(errorMsg);
+    } catch (error: any) {
+      console.timeEnd('request to ' + path);
+      this.handleError(error, url);
+      return { error: errorMsg };
+    }
+  }
+
+  private async get(path: string, errorMsg: string) {
+    const client = this.getClient();
+    const url = `${client.defaults.baseURL}/${path}`;
+    try {
+      console.time('request to ' + path);
+      const resp = await client.get(path);
       if (resp.data) {
         console.timeEnd('request to ' + path);
         return resp.data;
