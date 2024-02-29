@@ -44,10 +44,9 @@ export class YiviApi {
     return this.post('session', yiviIssueRequest, 'De YIVI sessie kon niet worden gestart.');
   }
 
-  async getSessionResult() {
-    // TODO implement
-    // const yiviIssueRequest = this.();
-    // return this.post('session', yiviIssueRequest, 'De YIVI sessie kon niet worden gestart.');
+  async getSessionResult(requestorToken: string) {
+    const path = `session/${requestorToken}/result`;
+    return this.post(path, undefined, 'De YIVI sessie kon niet worden gestart.');
   }
 
   private getClient(): Axios {
