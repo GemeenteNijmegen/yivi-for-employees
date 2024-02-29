@@ -57,7 +57,7 @@ export class WebappStack extends Stack {
       defaultPath: '/issue',
       postLoginProcessor: this.postLoginHook(),
       oidcProfiles: props.configuration.oidcProfiles,
-      cspHeaderValue: this.getCspHeader(hostedZone.zoneName),
+      // cspHeaderValue: this.getCspHeader(hostedZone.zoneName),
     });
 
     /**
@@ -136,8 +136,7 @@ export class WebappStack extends Stack {
 
 
   getCspHeader(hostedZoneName: string) {
-    return `\
-    default-src 'self'; \
+    const header = `default-src 'self'; \
     frame-ancestors 'self'; \
     frame-src 'self'; \
     connect-src 'self' https://componenten.nijmegen.nl https://api.${hostedZoneName}; \
@@ -146,6 +145,8 @@ export class WebappStack extends Stack {
     font-src 'self' https://componenten.nijmegen.nl https://fonts.gstatic.com; \
     img-src 'self' https://componenten.nijmegen.nl data: https://*.siteimproveanalytics.io; \
     object-src 'none';`;
+    console.log('CSP', header);
+    return header;
   }
 
 }

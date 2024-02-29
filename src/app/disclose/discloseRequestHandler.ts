@@ -2,7 +2,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Response } from '@gemeentenijmegen/apigateway-http/lib/V2/Response';
 import { Session } from '@gemeentenijmegen/session';
 import { render } from '@gemeentenijmegen/webapp';
-import * as issueTemplate from './templates/disclose.mustache';
+import * as dislosureTemplate from './templates/disclose.mustache';
 import { YiviApi } from '../util/YiviApi';
 
 const yivi = new YiviApi();
@@ -69,7 +69,7 @@ export class DiscloseRequestHandler {
 
     // 3. Show page and render QR code
     const data = {
-      title: 'Disclosure',
+      title: 'Check',
       shownav: false,
       error: error,
       yiviServer: `https://${yivi.getHost()}`,
@@ -77,7 +77,7 @@ export class DiscloseRequestHandler {
     };
 
     // render page
-    const html = await render(data, issueTemplate.default);
+    const html = await render(data, dislosureTemplate.default);
     return Response.html(html, 200, session.getCookie());
 
     // 3. User will be redirected to this page with the ?result flag by the frontend
@@ -107,14 +107,15 @@ export class DiscloseRequestHandler {
 
     // 4. Show page and render QR code
     const data = {
-      title: 'Resultaat',
+      title: 'Check',
       shownav: false,
       yiviServer: `https://${yivi.getHost()}`,
       result: result,
+      error: error,
     };
 
     // render page
-    const html = await render(data, issueTemplate.default);
+    const html = await render(data, dislosureTemplate.default);
     return Response.html(html, 200, session.getCookie());
   }
 }
