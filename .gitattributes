@@ -19,6 +19,7 @@
 /cdk.json linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
+/src/app/disclose/disclose-function.ts linguist-generated
 /src/app/issue/issue-function.ts linguist-generated
 /src/app/post-login/postlogin-function.ts linguist-generated
 /tsconfig.dev.json linguist-generated

@@ -1,0 +1,50 @@
+{{>header}}
+<link rel="stylesheet" href="static/styles/yivi.min.css">
+
+<main>
+    <!-- START: template component(s) -->
+    <div class="container" id="section-1">
+        <div class="row">
+            <div class="col-12">
+                <h1>Yivi voor medewerkers</h1>
+                <p class="lead">Scan de QR code met de Yivi app en laad je medewerkersgegevens.</p>
+                    {{#error}}
+                    <div class="error"> 
+                        <h1>Er is iets fout gegaan</h1>
+                        <p class="lead">{{error}}</p>
+                    </div>
+                    {{/error}}
+                    <div id="yivi-web-form"></div>
+                    <a id="retry-button" href="" class="button primary hidden">Opnieuw proberen</a>
+            </div>
+        </div>
+        <div class="row">
+            {{#nav}}
+            <div class="col-lg-4">
+                <div class="card card-services">
+                    <div class="card-body">
+                        <p>{{{icon}}}
+                        <h2 class="card-title">{{title}}</h2>
+                        <p class="card-text">{{description}}</p>
+                        <p class="card-read-more text-right mb-0 text-uppercase">
+                            <a href="{{{url}}}" aria-label="{{label}}">Lees meer</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {{/nav}}
+        </div>
+    </div>
+
+    <!-- END: template component(s) -->
+</main>
+
+
+<!-- Pass parameters to JS -->
+<span id="yiviServer" data="{{{yiviServer}}}" ></span>
+<span id="yiviFullSession" data="{{{yiviFullSession}}}" ></span>
+<!-- Load yivi and page JS -->
+<script src="static/scripts/yivi.js"></script>
+<script src="static/scripts/issue.js"></script>
+
+{{>footer}}

@@ -46,10 +46,31 @@
       "description": "Prepare assets",
       "steps": [
         {
+          "spawn": "bundle:app/disclose/disclose.lambda"
+        },
+        {
           "spawn": "bundle:app/issue/issue.lambda"
         },
         {
           "spawn": "bundle:app/post-login/postlogin.lambda"
+        }
+      ]
+    },
+    "bundle:app/disclose/disclose.lambda": {
+      "name": "bundle:app/disclose/disclose.lambda",
+      "description": "Create a JavaScript bundle from src/app/disclose/disclose.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+        }
+      ]
+    },
+    "bundle:app/disclose/disclose.lambda:watch": {
+      "name": "bundle:app/disclose/disclose.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/app/disclose/disclose.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
         }
       ]
     },

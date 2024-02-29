@@ -59,6 +59,7 @@ junit.xml
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
+!/src/app/disclose/disclose-function.ts
 !/src/app/issue/issue-function.ts
 !/src/app/post-login/postlogin-function.ts
 !/.github/workflows/emergency.yml

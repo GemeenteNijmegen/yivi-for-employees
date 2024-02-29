@@ -153,6 +153,7 @@
           "**//test/**",
           "**//build-tools/**",
           "**/src/shared/tests/**",
+          "src/app/disclose/disclose.lambda.ts",
           "src/app/issue/issue.lambda.ts",
           "src/app/post-login/postlogin.lambda.ts"
         ],

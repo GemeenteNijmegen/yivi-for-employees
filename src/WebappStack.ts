@@ -6,6 +6,7 @@ import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
+import { DiscloseFunction } from './app/disclose/disclose-function';
 import { IssueFunction } from './app/issue/issue-function';
 import { PostloginFunction } from './app/post-login/postlogin-function';
 import { Configurable } from './Configuration';
@@ -87,6 +88,22 @@ export class WebappStack extends Stack {
     });
     yiviApiKey.grantRead(homeFunction.lambda);
     webapp.addPage('issue', homeFunction, '/issue');
+  }
+
+  /**
+   * Add a disclosure page to the webapp
+   * @param webapp
+   */
+  addDisclosurePage(webapp: Webapp) {
+    const yiviApiHost = StringParameter.valueForStringParameter(this, Statics.yiviApiHost);
+    const homeFunction = new Webpage(this, 'frontend-disclosure-function', {
+      description: 'Frontend-disclosure lambda',
+      apiFunction: DiscloseFunction,
+      environment: {
+        YIVI_API_HOST: yiviApiHost,
+      },
+    });
+    webapp.addPage('disclose', homeFunction, '/disclose');
   }
 
   /**

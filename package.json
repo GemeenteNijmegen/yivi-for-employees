@@ -4,6 +4,8 @@
     "build": "npx projen build",
     "bump": "npx projen bump",
     "bundle": "npx projen bundle",
+    "bundle:app/disclose/disclose.lambda": "npx projen bundle:app/disclose/disclose.lambda",
+    "bundle:app/disclose/disclose.lambda:watch": "npx projen bundle:app/disclose/disclose.lambda:watch",
     "bundle:app/issue/issue.lambda": "npx projen bundle:app/issue/issue.lambda",
     "bundle:app/issue/issue.lambda:watch": "npx projen bundle:app/issue/issue.lambda:watch",
     "bundle:app/post-login/postlogin.lambda": "npx projen bundle:app/post-login/postlogin.lambda",
