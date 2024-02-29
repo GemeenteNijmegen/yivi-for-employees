@@ -106,6 +106,7 @@ export class ContainerStack extends Stack {
         timeout: Duration.seconds(6),
         requestParameters: {
           'integration.request.header.authorization': 'method.request.header.irma-authorization',
+          'integration.request.path.requestorToken': 'method.request.path.requestorToken',
         },
       },
     });
@@ -113,6 +114,7 @@ export class ContainerStack extends Stack {
       authorizationType: apigateway.AuthorizationType.NONE,
       requestParameters: {
         'method.request.header.irma-authorization': true,
+        'method.request.path.requestorToken': true,
       },
     });
 
