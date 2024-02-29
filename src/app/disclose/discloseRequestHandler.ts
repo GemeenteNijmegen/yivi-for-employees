@@ -108,7 +108,7 @@ export class DiscloseRequestHandler {
     // 4. Show page and render QR code
     const data = {
       title: 'Resultaat',
-      shownav: true,
+      shownav: false,
       yiviServer: `https://${yivi.getHost()}`,
       result: result,
     };
