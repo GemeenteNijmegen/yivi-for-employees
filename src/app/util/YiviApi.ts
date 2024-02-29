@@ -53,6 +53,7 @@ export class YiviApi {
 
   private async post(path: string, data: any, errorMsg: string) {
     const client = this.getClient();
+    const url = `${client.defaults.baseURL}/${path}`;
     try {
       console.time('request to ' + path);
       const resp = await client.post(path, data);
@@ -63,18 +64,18 @@ export class YiviApi {
       throw Error(errorMsg);
     } catch (error: any) {
       console.timeEnd('request to ' + path);
-      this.handleError(error, path);
+      this.handleError(error, url);
       return { error: errorMsg };
     }
   }
 
-  private handleError(error: any, path: string) {
-    console.error('Error while doing signed post request for endpoint:', path);
+  private handleError(error: any, url: string) {
+    console.error('Error while doing post request for url:', url);
     if (axios.isAxiosError(error)) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        console.log(`http status for ${path}: ${error.response?.status}`);
+        console.log(`http status for ${url}: ${error.response?.status}`);
         console.log('Error data:', error.response?.data);
       } else if (error.request) {
         // The request was made but no response was received
