@@ -44,12 +44,12 @@ export class HomeRequestHandler {
     const now = new Date();
     const in4Months = Math.floor(new Date().setMonth(now.getMonth() + 4) / 1000);
     const card: YiviCard = {
-      demoReference: '',
-      reference: '',
+      demoReference: 'irma-demo.gemeente.personalData.bsn',
+      reference: 'pbdf.gemeente.personalData.bsn',
       expiration: in4Months,
       attributes: {
-        email: email,
-        werktBijGemeenteNijmegen: 'ja',
+        bsn: email,
+        //werktBijGemeenteNijmegen: 'ja',
       },
     };
 
