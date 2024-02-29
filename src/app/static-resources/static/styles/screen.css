@@ -109,6 +109,7 @@ main {
     background-size: 2.5em;
     text-indent: 1.75em;
     width: auto;
+    max-width: 300em;
 }
 
 .btn-yivi {
