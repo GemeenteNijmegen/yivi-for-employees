@@ -236,40 +236,6 @@ export class ContainerStack extends Stack {
     return api;
   }
 
-
-  // setupApiGatewayPolicy(user: iam.User) {
-  //   const region = Stack.of(this).region;
-  //   const accountId = Stack.of(this).account;
-
-  //   // const user = new iam.User(this, 'yivi-api-user', {});
-  //   // const
-
-  //   return new iam.PolicyDocument({
-  //     statements: [
-  //       new iam.PolicyStatement({
-  //         actions: ['execute-api:Invoke'],
-  //         principals: [
-  //           new iam.ArnPrincipal(user.userArn),
-  //         ],
-  //         effect: iam.Effect.ALLOW,
-  //         resources: [
-  //           // Only allow invokation of this single endpoint
-  //           `arn:aws:execute-api:${region}:${accountId}:*/prod/POST/session`,
-  //         ],
-  //       }),
-  //       new iam.PolicyStatement({
-  //         actions: ['execute-api:Invoke'],
-  //         principals: [new iam.AnyPrincipal()],
-  //         effect: iam.Effect.ALLOW,
-  //         resources: [
-  //           `arn:aws:execute-api:${region}:${accountId}:*/prod/*/irma`,
-  //           `arn:aws:execute-api:${region}:${accountId}:*/prod/*/irma/*`,
-  //         ],
-  //       }),
-  //     ],
-  //   });
-  // }
-
   /**
    * Import the account vpc from the landingzone
    * @returns vpc
