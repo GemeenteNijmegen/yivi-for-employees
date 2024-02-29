@@ -32,9 +32,9 @@ export class HomeRequestHandler {
 
     // 1a. Collect info from session
     const name = session.getValue('name');
-    const email = session.getValue('email');
+    // const email = session.getValue('email');
     // const groups = JSON.parse(session.getValue('groups'));
-
+    // const worksForGemeenteNijmegen = groups.includes(process.env.GN_EMPLOYEE_AD_GROUP_UUID) ? 'ja' : 'nee';
 
     // 1b. Colelct info from other sources (microsoft graph / HR system) (optional)
     // TODO look into this
@@ -44,11 +44,16 @@ export class HomeRequestHandler {
     const now = new Date();
     const in4Months = Math.floor(new Date().setMonth(now.getMonth() + 4) / 1000);
     const card: YiviCard = {
-      demoReference: 'irma-demo.gemeente.personalData',
-      reference: 'pbdf.gemeente.personalData',
+      demoReference: 'irma-demo.gemeente.ageLimits',
+      reference: 'pbdf.gemeente.ageLimits',
       expiration: in4Months,
       attributes: {
-        bsn: email,
+        over12: 'ja',
+        over16: 'ja',
+        over18: 'ja',
+        over21: 'ja',
+        over65: 'nee',
+        // bsn: email,
         //werktBijGemeenteNijmegen: 'ja',
       },
     };

@@ -78,6 +78,7 @@ export class WebappStack extends Stack {
   addIssuePage(webapp: Webapp, props: WebappStackProps) {
     const yiviApiKey = Secret.fromSecretNameV2(this, 'yivi-api-key', Statics.secretsApiKey);
     const yiviApiHost = StringParameter.valueForStringParameter(this, Statics.yiviApiHost);
+    const gnEmployeeAdGroup = StringParameter.valueForStringParameter(this, Statics.ssmGnEmployeeAdGroup);
     const homeFunction = new Webpage(this, 'issue-function', {
       description: 'Issue lambda',
       apiFunction: IssueFunction,
@@ -85,6 +86,7 @@ export class WebappStack extends Stack {
         YIVI_API_DEMO: props.configuration.yiviDemo ? 'demo' : '',
         YIVI_API_HOST: yiviApiHost,
         YIVI_API_KEY_ARN: yiviApiKey.secretArn,
+        GN_EMPLOYEE_AD_GROUP_UUID: gnEmployeeAdGroup,
       },
     });
     yiviApiKey.grantRead(homeFunction.lambda);
@@ -98,6 +100,7 @@ export class WebappStack extends Stack {
   addDisclosurePage(webapp: Webapp, props: WebappStackProps) {
     const yiviApiKey = Secret.fromSecretNameV2(this, 'yivi-api-key-disclosure', Statics.secretsApiKey);
     const yiviApiHost = StringParameter.valueForStringParameter(this, Statics.yiviApiHost);
+    const gnEmployeeAdGroup = StringParameter.valueForStringParameter(this, Statics.ssmGnEmployeeAdGroup);
     const homeFunction = new Webpage(this, 'frontend-disclosure-function', {
       description: 'Frontend-disclosure lambda',
       apiFunction: DiscloseFunction,
@@ -105,6 +108,7 @@ export class WebappStack extends Stack {
         YIVI_API_DEMO: props.configuration.yiviDemo ? 'demo' : '',
         YIVI_API_HOST: yiviApiHost,
         YIVI_API_KEY_ARN: yiviApiKey.secretArn,
+        GN_EMPLOYEE_AD_GROUP_UUID: gnEmployeeAdGroup,
       },
     });
     yiviApiKey.grantRead(homeFunction.lambda);

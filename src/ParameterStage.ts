@@ -27,6 +27,12 @@ export class ParameterStack extends Stack {
       stringValue: '-',
     });
 
+    new StringParameter(this, 'gn-employee-ad-group', {
+      parameterName: Statics.ssmGnEmployeeAdGroup,
+      description: 'UUID of the Azure AD group for Gemeente Nijmegen employees',
+      stringValue: '-',
+    });
+
 
     // Yivi container secrets
 

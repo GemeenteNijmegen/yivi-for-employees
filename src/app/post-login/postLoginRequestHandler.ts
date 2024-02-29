@@ -41,6 +41,13 @@ export class PostLoginRequestHandler {
       return Response.redirect('/login');
     }
 
+
+    // Check if user is employee of nijmegen
+    if (!groups.includes(process.env.GN_EMPLOYEE_AD_GROUP_UUID)) {
+      return Response.redirect('/login?error=not_nijmegen');
+    }
+
+
     // Do some logging for tracking the unique number of authentications later on
     const emailHash = createHash('sha256').update(email).digest('hex');
     console.log('User authenticated: ', emailHash);
