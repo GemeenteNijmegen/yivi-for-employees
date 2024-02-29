@@ -1,23 +1,26 @@
 {{>header}}
-<link rel="stylesheet" href="static/styles/yivi.min.css">
 
 <main>
     <!-- START: template component(s) -->
     <div class="container" id="section-1">
         <div class="row">
             <div class="col-12">
+                
+                {{#error}}
+                <div class="error"> 
+                    <h1>Er is iets fout gegaan</h1>
+                    <p class="lead">{{error}}</p>
+                </div>
+                {{/error}}
+
                 <h1>Werk je voor Gemeente Nijmegen?</h1>
                 <p class="lead">Via de Yivi app aantonen dat je voor Gemeente Nijmegen werkt, zonder in te loggen!</p>
-                    {{#error}}
-                    <div class="error"> 
-                        <h1>Er is iets fout gegaan</h1>
-                        <p class="lead">{{error}}</p>
-                    </div>
-                    {{/error}}
                 <h1>Resultaat: {{result}}</h1>
+
                 <a href="/login" class="btn btn-primary waves-effect waves-light display-table btn-normal">
                     <span class="title"> Terug </span>
                 </a>
+
             </div>
         </div>
     </div>
