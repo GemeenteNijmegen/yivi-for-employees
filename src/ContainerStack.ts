@@ -26,7 +26,6 @@ export class ContainerStack extends Stack {
 
   private hostedzone: route53.IHostedZone;
   private vpc: ec2.IVpc;
-  // private api: apigateway.RestApi;
 
   constructor(scope: Construct, id: string, props: ContainerStackProps) {
     super(scope, id, props);
@@ -34,17 +33,16 @@ export class ContainerStack extends Stack {
     this.hostedzone = this.importHostedZone();
     this.vpc = this.setupVpc(props);
 
+    // API Gateway and access to VPC
     const cluster = this.constructEcsCluster();
     const loadbalancer = this.setupLoadbalancer();
     const listener = this.setupListner(loadbalancer);
-    //const vpclink = this.setupVpcLink(loadbalancer);
-
-    // API Gateway and access to VPC
-    //this.api = this.setupApiGateway();
+    const vpclink = this.setupVpcLink(loadbalancer);
+    const api = this.setupApiGateway();
 
     // Setup services and api gateway routes
     this.addIssueServiceAndIntegration(cluster, props, listener);
-    //this.setupApiRoutes(vpclink);
+    this.setupApiRoutes(api, vpclink);
 
   }
 
