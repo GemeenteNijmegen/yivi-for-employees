@@ -3,19 +3,30 @@
 <main>
     <!-- START: template component(s) -->
     <div class="container" id="section-1">
-            <h1>Yivi voor medewerkers</h1>
-            <p class="lead">Login met je Gemeente Nijmegen account om je medewerkersgegevens in Yivi te laden.</p>
+            
             <div class="login-selector">
-                {{#authenticationOptions}}
+
                 <div>
-                    <a href="{{{authUrl}}}" class="btn btn-primary waves-effect waves-light display-table {{class}}">
-                        <span class="title"> Inloggen </span><span class="assistive">bij {{title}}</span>
+                    <h1>Ophalen</h1>
+                    <p class="lead">Login met je Gemeente Nijmegen account om je medewerkersgegevens in Yivi te laden.</p>
+                    {{#authenticationOptions}}
+                        <a href="{{{authUrl}}}" class="btn btn-primary waves-effect waves-light display-table {{class}}">
+                            <span class="title"> Inloggen </span><span class="assistive">bij {{title}}</span>
+                        </a>
+                    {{/authenticationOptions}}
+                </div>
+
+                <div>
+                    <h1>Checken</h1>
+                    <p class="lead">Check met Yivi of iemand een medewerker van Gemeente Nijmegen is.</p>
+                    <a href="/disclose" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                        <span class="title"> Nu checken met Yivi </span>
                     </a>
                 </div>
-                {{/authenticationOptions}}
+                
             </div>
+            <hr/>
             <p>Uitleg over Yivi hier! <a href="https://www.nijmegen.nl/diensten/privacy/yivi-nieuwe-manier-van-inloggen/">Lees meer over Yivi</a>.
-        </div>
     </div>
     <!-- END: template component(s) -->
 </main>

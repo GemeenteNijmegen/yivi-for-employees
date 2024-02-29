@@ -132,6 +132,10 @@ main {
     max-width: 300em;
 }
 
+.btn-normal {
+    width: auto;
+}
+
 .btn-yivi {
     background-image: url(../images/yivi.svg);
     background-repeat: no-repeat;
