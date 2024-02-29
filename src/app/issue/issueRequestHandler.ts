@@ -44,8 +44,8 @@ export class HomeRequestHandler {
     const now = new Date();
     const in4Months = Math.floor(new Date().setMonth(now.getMonth() + 4) / 1000);
     const card: YiviCard = {
-      demoReference: 'irma-demo.gemeente.ageLimits',
-      reference: 'pbdf.gemeente.ageLimits',
+      demoReference: 'irma-demo.nijmegen.ageLimits',
+      reference: 'pbdf.nijmegen.ageLimits',
       expiration: in4Months,
       attributes: {
         over12: 'ja',
