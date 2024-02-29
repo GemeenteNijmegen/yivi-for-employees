@@ -68,6 +68,10 @@ export interface Configuration {
    */
   alpineLinuxVersion: string;
   /**
+   * Use yivi demo schema
+   */
+  yiviDemo: boolean;
+  /**
    * ECS spot instances (cheper, but container relocations)
    */
   useSpotInstances: boolean;
@@ -98,6 +102,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     yiviVersionNumber: 'v0.15.1',
     yiviVersionChecksum: '27182cc8203234eca14b60fe488c1157fce0d1385410a83216436418d5b03a52',
     alpineLinuxVersion: '3.19.1',
+    yiviDemo: true,
     useSpotInstances: true,
   },
 };

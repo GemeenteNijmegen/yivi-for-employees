@@ -3,6 +3,7 @@ import { Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
 import { IssueFunction } from './app/issue/issue-function';
@@ -65,18 +66,26 @@ export class WebappStack extends Stack {
     clientSecret.grantRead(webapp);
 
     // Add other pages!
-    this.addIssuePage(webapp);
+    this.addIssuePage(webapp, props);
   }
 
   /**
    * Add a home page to the webapp
    * @param webapp
    */
-  addIssuePage(webapp: Webapp) {
+  addIssuePage(webapp: Webapp, props: WebappStackProps) {
+    const yiviApiKey = Secret.fromSecretNameV2(this, 'yivi-api-key', Statics.secretsApiKey);
+    const yiviApiHost = StringParameter.valueForStringParameter(this, Statics.yiviApiHost);
     const homeFunction = new Webpage(this, 'issue-function', {
       description: 'Issue lambda',
       apiFunction: IssueFunction,
+      environment: {
+        YIVI_API_DEMO: props.configuration.yiviDemo ? 'demo' : '',
+        YIVI_API_HOST: yiviApiHost,
+        YIVI_API_KEY_ARN: yiviApiKey.secretArn,
+      },
     });
+    yiviApiKey.grantRead(homeFunction.lambda);
     webapp.addPage('issue', homeFunction, '/issue');
   }
 
@@ -91,7 +100,6 @@ export class WebappStack extends Stack {
       description: 'Post-login lambda',
       apiFunction: PostloginFunction,
       environment: {
-
       },
     });
     return hook;

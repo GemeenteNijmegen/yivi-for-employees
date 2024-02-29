@@ -23,6 +23,9 @@ export abstract class Statics {
   static readonly secretsApiKey = `/cdk/${this.projectName}/secrets/container/api-key`;
   static readonly secretsPrivateKey = `/cdk/${this.projectName}/secrets/container/private-key`;
 
+  // Yivi api host
+  static readonly yiviApiHost = `/cdk/${this.projectName}/param/webapp/yivi-api-host`;
+
   // ENVIRONMENTS
 
   static readonly gnSandboxMarnix = {
