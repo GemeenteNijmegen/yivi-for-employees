@@ -68,7 +68,7 @@ export class WebappStack extends Stack {
 
     // Add other pages!
     this.addIssuePage(webapp, props);
-    this.addDisclosurePage(webapp);
+    this.addDisclosurePage(webapp, props);
   }
 
   /**
@@ -95,15 +95,19 @@ export class WebappStack extends Stack {
    * Add a disclosure page to the webapp
    * @param webapp
    */
-  addDisclosurePage(webapp: Webapp) {
+  addDisclosurePage(webapp: Webapp, props: WebappStackProps) {
+    const yiviApiKey = Secret.fromSecretNameV2(this, 'yivi-api-key-disclosure', Statics.secretsApiKey);
     const yiviApiHost = StringParameter.valueForStringParameter(this, Statics.yiviApiHost);
     const homeFunction = new Webpage(this, 'frontend-disclosure-function', {
       description: 'Frontend-disclosure lambda',
       apiFunction: DiscloseFunction,
       environment: {
+        YIVI_API_DEMO: props.configuration.yiviDemo ? 'demo' : '',
         YIVI_API_HOST: yiviApiHost,
+        YIVI_API_KEY_ARN: yiviApiKey.secretArn,
       },
     });
+    yiviApiKey.grantRead(homeFunction.lambda);
     webapp.addPage('disclose', homeFunction, '/disclose');
   }
 
