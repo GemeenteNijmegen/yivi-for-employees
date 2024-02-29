@@ -40,7 +40,7 @@ export class DiscloseRequestHandler {
 
   private async handleStartDisclosureRequest(session: Session, params: DiscloseRequestHandlerRequest) {
 
-    const handler = getHandlerForType(params.type);
+    const handler = getHandlerForType(this.dynamoDBClient, params.type);
 
     // 1. start yivi session
     let base64YiviSession = undefined;
@@ -88,7 +88,7 @@ export class DiscloseRequestHandler {
 
   private async handleDisclosureResultRequest(session: Session, params: DiscloseRequestHandlerRequest) {
 
-    const handler = getHandlerForType(params.type);
+    const handler = getHandlerForType(this.dynamoDBClient, params.type);
 
     // 1. Get requestorToken from user session
     const requestorToken = session.getValue('token');
@@ -138,7 +138,7 @@ function validateDisclosureResponse(result: any) {
   }
 }
 
-function getHandlerForType(type?: string) {
-  const handler = handlerTypeMap[type ?? 'age']();
+function getHandlerForType(client: DynamoDBClient, type?: string) {
+  const handler = handlerTypeMap[type ?? 'age'](client);
   return handler;
 }

@@ -1,14 +1,20 @@
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import * as dislosureTemplateAge from './templates/discloseResultAge.mustache';
 import * as dislosureTemplateEmployee from './templates/discloseResultEmployee.mustache';
 import * as dislosureTemplateKoffie from './templates/discloseResultKoffie.mustache';
 
-export const handlerTypeMap: {[key: string]: () => RequestTypeHandler} = {
-  age: () => new AgeHandler(),
-  employee: () => new EmployeeHandler(),
-  koffie: () => new KoffieHandler(),
+export const handlerTypeMap: {[key: string]: (client: DynamoDBClient) => RequestTypeHandler} = {
+  age: (client: DynamoDBClient) => new AgeHandler(client),
+  employee: (client: DynamoDBClient) => new EmployeeHandler(client),
+  koffie: (client: DynamoDBClient) => new KoffieHandler(client),
 };
 
 export abstract class RequestTypeHandler {
+  dynamodbClient: DynamoDBClient;
+
+  constructor(dynamodbClient: DynamoDBClient) {
+    this.dynamodbClient = dynamodbClient;
+  }
   abstract getResultTemplate(): string;
   abstract getDisclosureRequest(): any;
   abstract handleDisclosureRequest(sessionResult: any) : any;
