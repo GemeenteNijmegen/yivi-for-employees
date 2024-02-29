@@ -68,6 +68,7 @@ export class WebappStack extends Stack {
 
     // Add other pages!
     this.addIssuePage(webapp, props);
+    this.addDisclosurePage(webapp);
   }
 
   /**
