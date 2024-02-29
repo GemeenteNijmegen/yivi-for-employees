@@ -42,7 +42,7 @@ export class DiscloseRequestHandler {
         [ // And
           [ // Or
             [ // List of attributes
-              'irma-demo.gemeente.personalData.BSN',
+              'irma-demo.gemeente.personalData.bsn',
             ],
           ],
         ],
