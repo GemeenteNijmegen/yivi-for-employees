@@ -91,7 +91,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
         clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:049753832279:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-wiUd8V',
         applicationBaseUrl: 'https://yivi-voor-medewerkers.sandbox-marnix.csp-nijmegen.nl',
         authenticationBaseUrl: 'https://authenticatie-accp.nijmegen.nl',
-        scope: 'openid idp_scoping:microsoft idp_scoping:simulator',
+        scope: 'openid idp_scoping:microsoft',
         immediateRedirect: false,
       },
     ],
