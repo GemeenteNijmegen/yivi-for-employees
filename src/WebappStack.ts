@@ -122,10 +122,12 @@ export class WebappStack extends Stack {
    * @returns
    */
   postLoginHook() {
+    const gnEmployeeAdGroup = StringParameter.valueForStringParameter(this, Statics.ssmGnEmployeeAdGroup);
     const hook = new Webpage(this, 'post-login-function', {
       description: 'Post-login lambda',
       apiFunction: PostloginFunction,
       environment: {
+        GN_EMPLOYEE_AD_GROUP_UUID: gnEmployeeAdGroup,
       },
     });
     return hook;
