@@ -26,7 +26,7 @@ export class ContainerStack extends Stack {
 
   private hostedzone: route53.IHostedZone;
   private vpc: ec2.IVpc;
-  private api: apigateway.RestApi;
+  // private api: apigateway.RestApi;
 
   constructor(scope: Construct, id: string, props: ContainerStackProps) {
     super(scope, id, props);
@@ -37,18 +37,18 @@ export class ContainerStack extends Stack {
     const cluster = this.constructEcsCluster();
     const loadbalancer = this.setupLoadbalancer();
     const listener = this.setupListner(loadbalancer);
-    const vpclink = this.setupVpcLink(loadbalancer);
+    //const vpclink = this.setupVpcLink(loadbalancer);
 
     // API Gateway and access to VPC
-    this.api = this.setupApiGateway();
+    //this.api = this.setupApiGateway();
 
     // Setup services and api gateway routes
     this.addIssueServiceAndIntegration(cluster, props, listener);
-    this.setupApiRoutes(vpclink);
+    //this.setupApiRoutes(vpclink);
 
   }
 
-  setupApiRoutes(vpclink: apigateway.VpcLink) {
+  setupApiRoutes(api: apigateway.RestApi, vpclink: apigateway.VpcLink) {
 
     // Public
     const irmaIntegration = new apigateway.Integration({
@@ -63,7 +63,7 @@ export class ContainerStack extends Stack {
         },
       },
     });
-    const irma = this.api.root.addResource('irma');
+    const irma = api.root.addResource('irma');
     irma.addProxy({
       defaultIntegration: irmaIntegration,
       defaultMethodOptions: {
@@ -75,7 +75,7 @@ export class ContainerStack extends Stack {
     });
 
     // Private paths below
-    const session = this.api.root.addResource('session');
+    const session = api.root.addResource('session');
     const result = session.addResource('{requestorToken}').addResource('result');
 
     // POST /session
