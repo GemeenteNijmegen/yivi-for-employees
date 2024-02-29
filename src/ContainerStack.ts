@@ -34,17 +34,17 @@ export class ContainerStack extends Stack {
     this.hostedzone = this.importHostedZone();
     this.vpc = this.setupVpc();
 
-    this.constructEcsCluster();
+    const cluster = this.constructEcsCluster();
     const loadbalancer = this.setupLoadbalancer();
-    this.setupListner(loadbalancer);
-    this.setupVpcLink(loadbalancer);
+    const listener = this.setupListner(loadbalancer);
+    const vpclink = this.setupVpcLink(loadbalancer);
 
     // API Gateway and access to VPC
     this.api = this.setupApiGateway();
 
     // Setup services and api gateway routes
-    // this.addIssueServiceAndIntegration(cluster, props, listner);
-    // this.setupApiRoutes(vpclink);
+    this.addIssueServiceAndIntegration(cluster, props, listener);
+    this.setupApiRoutes(vpclink);
 
   }
 
