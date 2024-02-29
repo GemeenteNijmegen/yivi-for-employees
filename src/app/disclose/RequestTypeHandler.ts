@@ -31,7 +31,7 @@ export class KoffieHandler extends RequestTypeHandler {
   handleDisclosureRequest(sessionResult: any) {
     // TODO update dynamodb table with koffie data
     // Or sessie om eerst een akkoord knop te maken ofzo
-    return sessionResult.disclosed[0][0].rawValue;
+    return sessionResult.disclosed[0][0].rawvalue;
   }
 }
 
@@ -49,7 +49,7 @@ export class EmployeeHandler extends RequestTypeHandler {
     ];
   }
   handleDisclosureRequest(sessionResult: any) {
-    return sessionResult.disclosed[0][0].rawValue;
+    return sessionResult.disclosed[0][0].rawvalue;
   }
 }
 
@@ -69,6 +69,6 @@ export class AgeHandler extends RequestTypeHandler {
   }
   handleDisclosureRequest(sessionResult: any) {
     console.log('AgeHandlerResult', JSON.stringify(sessionResult, null, 4));
-    return sessionResult.disclosed[0][0].rawValue;
+    return sessionResult.disclosed[0][0].rawvalue;
   }
 }
