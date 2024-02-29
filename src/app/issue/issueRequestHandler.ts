@@ -44,8 +44,8 @@ export class HomeRequestHandler {
     const now = new Date();
     const in4Months = Math.floor(new Date().setMonth(now.getMonth() + 4) / 1000);
     const card: YiviCard = {
-      demoReference: 'irma-demo.gemeente.personalData.bsn',
-      reference: 'pbdf.gemeente.personalData.bsn',
+      demoReference: 'irma-demo.gemeente.personalData',
+      reference: 'pbdf.gemeente.personalData',
       expiration: in4Months,
       attributes: {
         bsn: email,
