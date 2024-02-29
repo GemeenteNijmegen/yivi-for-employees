@@ -27,6 +27,7 @@ export abstract class Statics {
   static readonly yiviApiHost = `/cdk/${this.projectName}/param/webapp/yivi-api-host`;
   static readonly ssmGnEmployeeAdGroup = `/cdk/${this.projectName}/param/webapp/gn-employee-ad-group`;
 
+  static readonly ssmUserTableArn = `/cdk/${this.projectName}/param/webapp/user-table`;
 
   // ENVIRONMENTS
 

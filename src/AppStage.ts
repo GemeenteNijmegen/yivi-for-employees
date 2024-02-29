@@ -3,6 +3,7 @@ import { Aspects, Stage, StageProps, Tags } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Configurable } from './Configuration';
 import { Statics } from './Statics';
+import { StorageStack } from './StorageStack';
 import { UsEastStack } from './UsEastStack';
 import { WebappStack } from './WebappStack';
 
@@ -25,11 +26,17 @@ export class AppStage extends Stage {
       alternativeDomainNames: undefined, // No nijmegen.nl subdomain
     });
 
+    // Keep state in a separate stack
+    const storageStack = new StorageStack(this, 'storage', {
+      configuration: props.configuration,
+    });
+
     // Deploy our webapp
     const webappStack = new WebappStack(this, 'web', {
       configuration: props.configuration,
     });
     webappStack.addDependency(usEastStack);
+    webappStack.addDependency(storageStack);
 
 
   }
