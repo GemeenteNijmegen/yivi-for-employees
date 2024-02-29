@@ -93,6 +93,26 @@ main {
     top: 0;
 }
 
+.hidden {
+    display: none;
+}
+
+.error {
+    padding: 1em .5em;
+    border-left: 4px solid #E02146;
+    background: #ffdde3;
+    color: black;
+    padding: .5em .5em .5em 1em;
+}
+
+.error p {
+    margin: 0;
+}
+
+.error p + p {
+    margin-top: 1em;
+}  
+
 .btn-digid {
     background-image: url(../images/digid.svg);
     background-repeat: no-repeat;
