@@ -2,10 +2,8 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Response } from '@gemeentenijmegen/apigateway-http/lib/V2/Response';
 import { Session } from '@gemeentenijmegen/session';
 import { render } from '@gemeentenijmegen/webapp';
+import { handlerTypeMap } from './RequestTypeHandler';
 import * as dislosureTemplate from './templates/disclose.mustache';
-import * as dislosureTemplateAge from './templates/discloseResultAge.mustache';
-import * as dislosureTemplateEmployee from './templates/discloseResultEmployee.mustache';
-import * as dislosureTemplateKoffie from './templates/discloseResultKoffie.mustache';
 import { YiviApi } from '../util/YiviApi';
 
 const yivi = new YiviApi();
@@ -42,12 +40,14 @@ export class DiscloseRequestHandler {
 
   private async handleStartDisclosureRequest(session: Session, params: DiscloseRequestHandlerRequest) {
 
+    const handler = getHandlerForType(params.type);
+
     // 1. start yivi session
     let base64YiviSession = undefined;
     let requestorToken = undefined;
     let error = undefined;
     try {
-      const request = disclosureRequestForType(params.type);
+      const request = handler.getDisclosureRequest();
       const disclosureSession = await yivi.startDisclosureSession(request);
       if (disclosureSession.error) {
         throw new Error(`Error response from yivi api client: ${disclosureSession.error}`);
@@ -88,6 +88,8 @@ export class DiscloseRequestHandler {
 
   private async handleDisclosureResultRequest(session: Session, params: DiscloseRequestHandlerRequest) {
 
+    const handler = getHandlerForType(params.type);
+
     // 1. Get requestorToken from user session
     const requestorToken = session.getValue('token');
     if (!requestorToken) {
@@ -101,7 +103,7 @@ export class DiscloseRequestHandler {
       const response = await yivi.getSessionResult(requestorToken);
       validateDisclosureResponse(response);
 
-      result = handleDisclosureForType(response, params.type);
+      result = handler.handleDisclosureRequest(response);
 
     } catch (err) {
       console.error(err);
@@ -117,7 +119,7 @@ export class DiscloseRequestHandler {
     };
 
     // render page
-    const template = templateForRequestType(params.type);
+    const template = handler.getResultTemplate();
     const html = await render(data, template);
     return Response.html(html, 200, session.getCookie());
   }
@@ -136,60 +138,7 @@ function validateDisclosureResponse(result: any) {
   }
 }
 
-function handleDisclosureForType(result: any, type?: string) {
-  switch (type) {
-    case 'employee':
-      return result.disclosed[0][0].rawValue;
-    case 'koffie':
-      return result.disclosed[0][0].rawValue;
-    case 'age':
-    case undefined:
-    default:
-      return result.disclosed[0][0].rawValue;
-  }
-}
-
-
-function templateForRequestType(type?: string) {
-  switch (type) {
-    case 'employee':
-      return dislosureTemplateEmployee.default;
-    case 'koffie':
-      return dislosureTemplateKoffie.default;
-    case 'age':
-    case undefined:
-    default:
-      return dislosureTemplateAge.default;
-  }
-}
-
-function disclosureRequestForType(type?: string) {
-  switch (type) {
-    case 'employee':
-      return [ // And
-        [ // Or
-          [ // List of attributes
-            'irma-demo.nijmegen.employeeData.works-for-gemeente-nijmegen',
-          ],
-        ],
-      ];
-    case 'koffie':
-      return [ // And
-        [ // Or
-          [ // List of attributes
-            'irma-demo.nijmegen.employeeData.email',
-          ],
-        ],
-      ];
-    case 'age':
-    case undefined:
-    default:
-      return [ // And
-        [ // Or
-          [ // List of attributes
-            'irma-demo.gemeente.personalData.over18',
-          ],
-        ],
-      ];
-  }
+function getHandlerForType(type?: string) {
+  const handler = handlerTypeMap[type ?? 'age']();
+  return handler;
 }
