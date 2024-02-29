@@ -5,6 +5,9 @@ import { render } from '@gemeentenijmegen/webapp';
 import * as issueTemplate from './templates/issue.mustache';
 import { YiviApi, YiviCard } from '../util/YiviApi';
 
+const yivi = new YiviApi();
+const init = yivi.init();
+
 export class HomeRequestHandler {
   private dynamoDBClient: DynamoDBClient;
   constructor(dynamoDBClient: DynamoDBClient) {
@@ -23,6 +26,9 @@ export class HomeRequestHandler {
   }
 
   private async handleLoggedinRequest(session: Session) {
+
+    // Make sure we are initalized
+    await init;
 
     // 1a. Collect info from session
     const name = session.getValue('name');
@@ -49,13 +55,17 @@ export class HomeRequestHandler {
 
 
     // 3. Start session on yivi issue server
-    let yiviSession = undefined;
+    let base64YiviSession = undefined;
+    let error = undefined;
     try {
-      const yivi = new YiviApi();
-      yiviSession = await yivi.startIssueSession([card]);
-
-    } catch (error) {
-      console.error(error);
+      const yiviSession = await yivi.startIssueSession([card]);
+      if (yiviSession.error) {
+        throw new Error(`Error response from yivi api client: ${yiviSession.error}`);
+      }
+      base64YiviSession = Buffer.from(JSON.stringify(yiviSession), 'utf-8').toString('base64');
+    } catch (err) {
+      console.error(err);
+      error = 'Er is iets fout gegaan bij het inladen van de medewerkersgegevens in de Yivi app. Probeer het later opnieuw.';
     }
 
 
@@ -64,8 +74,9 @@ export class HomeRequestHandler {
       title: 'Uitgifte',
       shownav: true,
       name: name,
-      error: yiviSession === undefined,
-      // TODO add session ptr data here
+      error: error,
+      yiviServer: `https://${yivi.getHost()}`,
+      yiviFullSession: base64YiviSession,
     };
 
     // render page
