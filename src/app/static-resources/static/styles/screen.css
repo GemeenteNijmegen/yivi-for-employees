@@ -94,7 +94,7 @@ main {
 }
 
 .hidden {
-    display: none;
+    display: none !important; /** i know this is ugly **/
 }
 
 .error {
