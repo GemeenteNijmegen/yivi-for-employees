@@ -38,5 +38,5 @@ function getBranchToBuild() {
       console.error(`${githubBaseBranchName} has no valid configuration, using default`);
     }
   }
-  return 'sandbox';
+  return 'acceptance';
 }
