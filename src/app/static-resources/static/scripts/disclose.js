@@ -39,7 +39,7 @@ if (yiviFullSessionEncoded) {
             console.log('Disclosing completed!');
             setTimeout(() => {
                 const url = new URL(window.location.href);
-                url.searchParams.append('result', true);
+                url.searchParams.set('action', 'result');
                 window.location.href = url.toString();
             }, 1000);
         })
