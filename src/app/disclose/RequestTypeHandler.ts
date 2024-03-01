@@ -115,9 +115,12 @@ export class KoffieHandler extends RequestTypeHandler {
     const command = new UpdateItemCommand({
       Key: { pk: { S: key } },
       TableName: process.env.USER_TABLE_NAME,
-      UpdateExpression: 'ADD data :koffie',
+      UpdateExpression: 'ADD #c :koffie',
       ExpressionAttributeValues: {
         ':koffie': { N: '1' },
+      },
+      ExpressionAttributeNames: {
+        '#c': 'data',
       },
     });
     await this.dynamodbClient.send(command);
