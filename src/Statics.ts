@@ -36,4 +36,20 @@ export abstract class Statics {
     region: 'eu-central-1',
   };
 
+  static readonly gnBuild = {
+    account: '836443378780',
+    region: 'eu-central-1',
+  };
+
+  static readonly gnYiviNijmegenAccp = {
+    account: '992382808833',
+    region: 'eu-central-1',
+  };
+
+  static readonly gnYiviNijmegenProd = {
+    account: '767398106682',
+    region: 'eu-central-1',
+  };
+
+
 }

@@ -81,8 +81,8 @@ export interface Configuration {
 const EnvironmentConfigurations: {[key:string]: Configuration} = {
   main: {
     branch: 'main',
-    buildEnvironment: Statics.gnSandboxMarnix,
-    deploymentEnvironment: Statics.gnSandboxMarnix,
+    buildEnvironment: Statics.gnBuild,
+    deploymentEnvironment: Statics.gnYiviNijmegenProd,
     pipelineStackCdkName: 'yivi-for-employees-main',
     pipelineName: 'yivi-for-employees-main',
     resources: 'src/resources',
@@ -107,8 +107,8 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
   },
   acceptance: {
     branch: 'acceptance',
-    buildEnvironment: Statics.gnSandboxMarnix,
-    deploymentEnvironment: Statics.gnSandboxMarnix,
+    buildEnvironment: Statics.gnBuild,
+    deploymentEnvironment: Statics.gnYiviNijmegenAccp,
     pipelineStackCdkName: 'yivi-for-employees-acceptance',
     pipelineName: 'yivi-for-employees-acceptance',
     resources: 'src/resources',

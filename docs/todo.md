@@ -7,8 +7,8 @@
 - [ ] Disclosure koffie testen
 
 # To do for live
-- [ ] Account aanmaken incl. vpc, monitoring, dns
-- [ ] Configuratie object aanmaken in project
+- [x] Account aanmaken incl. vpc, monitoring, dns
+- [x] Configuratie object aanmaken in project
 - [ ] Mergen naar main
 - [ ] Deploy pipeline naar gn-build
 - [ ] Schema PR mergen https://github.com/privacybydesign/pbdf-schememanager/pull/125
