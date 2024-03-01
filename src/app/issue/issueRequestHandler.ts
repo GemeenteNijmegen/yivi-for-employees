@@ -32,7 +32,8 @@ export class HomeRequestHandler {
 
     // 1a. Collect info from session
     const name = session.getValue('name');
-    // const email = session.getValue('email');
+    const email = session.getValue('email');
+    const worksForGemeenteNijmegen = email.endsWith('@nijmegen.nl');
     // const groups = JSON.parse(session.getValue('groups'));
     // const worksForGemeenteNijmegen = groups.includes(process.env.GN_EMPLOYEE_AD_GROUP_UUID) ? 'ja' : 'nee';
 
@@ -44,17 +45,12 @@ export class HomeRequestHandler {
     const now = new Date();
     const in4Months = Math.floor(new Date().setMonth(now.getMonth() + 4) / 1000);
     const card: YiviCard = {
-      demoReference: 'irma-demo.nijmegen.ageLimits',
-      reference: 'pbdf.nijmegen.ageLimits',
+      demoReference: 'irma-demo.nijmegen.employeeData',
+      reference: 'pbdf.nijmegen.employeeData',
       expiration: in4Months,
       attributes: {
-        over12: 'ja',
-        over16: 'ja',
-        over18: 'ja',
-        over21: 'ja',
-        over65: 'nee',
-        // bsn: email,
-        //werktBijGemeenteNijmegen: 'ja',
+        email: email,
+        worksForGemeenteNijmegen: worksForGemeenteNijmegen,
       },
     };
 
