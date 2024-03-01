@@ -31,7 +31,6 @@ export class PostLoginRequestHandler {
       return Response.redirect('/login');
     }
 
-
     // Try to get the BSN from the claims depending on the profile used.
     console.log('Validating claims...');
     const groups = JSON.parse(claims.groups);
@@ -41,17 +40,13 @@ export class PostLoginRequestHandler {
       return Response.redirect('/login');
     }
 
-
-    // Check if user is employee of nijmegen
-    if (!groups.includes(process.env.GN_EMPLOYEE_AD_GROUP_UUID)) {
-      return Response.redirect('/login?error=not_nijmegen');
-    }
-
+    // Do not check if user is employee of nijmegen. The user is in the AD
+    // so it might be iRvN, Beuningen or another organization. We will only
+    // issue the worksForGemeenteNijmegen=Yes card based on email address.
 
     // Do some logging for tracking the unique number of authentications later on
     const emailHash = createHash('sha256').update(email).digest('hex');
     console.log('User authenticated: ', emailHash);
-
 
     // Create the session and redirect
     try {

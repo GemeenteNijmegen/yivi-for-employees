@@ -50,7 +50,7 @@ export class HomeRequestHandler {
       expiration: in4Months,
       attributes: {
         email: email,
-        worksForGemeenteNijmegen: worksForGemeenteNijmegen,
+        worksForGemeenteNijmegen: worksForGemeenteNijmegen ? 'Ja' : 'Nee',
       },
     };
 
