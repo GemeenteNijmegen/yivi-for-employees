@@ -79,6 +79,58 @@ export interface Configuration {
 
 
 const EnvironmentConfigurations: {[key:string]: Configuration} = {
+  main: {
+    branch: 'main',
+    buildEnvironment: Statics.gnSandboxMarnix,
+    deploymentEnvironment: Statics.gnSandboxMarnix,
+    pipelineStackCdkName: 'yivi-for-employees-main',
+    pipelineName: 'yivi-for-employees-main',
+    resources: 'src/resources',
+    oidcProfiles: [
+      {
+        name: 'microsoft',
+        title: 'Gemeente Nijmegen',
+        cssClass: 'btn-microsoft',
+        clientId: 'todo',
+        clientSecretArn: 'todo',
+        applicationBaseUrl: 'https://yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
+        authenticationBaseUrl: 'https://authenticatie.nijmegen.nl',
+        scope: 'openid idp_scoping:microsoft',
+        immediateRedirect: false,
+      },
+    ],
+    yiviVersionNumber: 'v0.15.1',
+    yiviVersionChecksum: '27182cc8203234eca14b60fe488c1157fce0d1385410a83216436418d5b03a52',
+    alpineLinuxVersion: '3.19.1',
+    yiviDemo: false,
+    useSpotInstances: false,
+  },
+  acceptance: {
+    branch: 'acceptance',
+    buildEnvironment: Statics.gnSandboxMarnix,
+    deploymentEnvironment: Statics.gnSandboxMarnix,
+    pipelineStackCdkName: 'yivi-for-employees-acceptance',
+    pipelineName: 'yivi-for-employees-acceptance',
+    resources: 'src/resources',
+    oidcProfiles: [
+      {
+        name: 'microsoft',
+        title: 'Gemeente Nijmegen',
+        cssClass: 'btn-microsoft',
+        clientId: 'CVotFJe53ZomCfbetVSiykdcqNgzSiIt',
+        clientSecretArn: '',
+        applicationBaseUrl: 'https://yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
+        authenticationBaseUrl: 'https://authenticatie-accp.nijmegen.nl',
+        scope: 'openid idp_scoping:microsoft',
+        immediateRedirect: false,
+      },
+    ],
+    yiviVersionNumber: 'v0.15.1',
+    yiviVersionChecksum: '27182cc8203234eca14b60fe488c1157fce0d1385410a83216436418d5b03a52',
+    alpineLinuxVersion: '3.19.1',
+    yiviDemo: true,
+    useSpotInstances: true,
+  },
   sandbox: {
     branch: 'sandbox',
     buildEnvironment: Statics.gnSandboxMarnix,
