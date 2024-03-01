@@ -1,6 +1,6 @@
 # To do for demo
-- [ ] Kiezen voor AD groep of voor email
-- [ ] Demo schema PR mergen https://github.com/privacybydesign/irma-demo-schememanager/pull/126
+- [x] Kiezen voor ~~AD groep~~ of voor email
+- [x] Demo schema PR mergen https://github.com/privacybydesign/irma-demo-schememanager/pull/126
 - [ ] Disclosure age testen
 - [ ] Disclosure employee testen
 - [ ] Disclosure koffie counter implementeren

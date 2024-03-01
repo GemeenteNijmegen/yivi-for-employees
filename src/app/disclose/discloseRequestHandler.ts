@@ -63,13 +63,15 @@ export class DiscloseRequestHandler {
     }
 
     // 2. Store the requestorToken in the user session
-    try {
-      await session.createSession({
-        token: { S: requestorToken },
-      });
-    } catch (err: any) {
-      console.error(err);
-      error = 'Er is iets fout gegaan bij het checken van de medewerkersgegevens via de Yivi app. Probeer het later opnieuw.';
+    if (!error) {
+      try {
+        await session.createSession({
+          token: { S: requestorToken },
+        });
+      } catch (err: any) {
+        console.error(err);
+        error = 'Er is iets fout gegaan bij het checken van de medewerkersgegevens via de Yivi app. Probeer het later opnieuw.';
+      }
     }
 
     // 3. Show page and render QR code
@@ -104,9 +106,7 @@ export class DiscloseRequestHandler {
     try {
       const response = await yivi.getSessionResult(requestorToken);
       validateDisclosureResponse(response);
-
       result = await handler.handleDisclosureRequest(response, session);
-
     } catch (err) {
       console.error(err);
       error = 'Er is iets fout gegaan bij het checken van de medewerkersgegevens via de Yivi app. Probeer het later opnieuw.';
