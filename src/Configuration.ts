@@ -118,7 +118,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
         title: 'Gemeente Nijmegen',
         cssClass: 'btn-microsoft',
         clientId: 'CVotFJe53ZomCfbetVSiykdcqNgzSiIt',
-        clientSecretArn: '',
+        clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:992382808833:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-zCfjKX',
         applicationBaseUrl: 'https://yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
         authenticationBaseUrl: 'https://authenticatie-accp.nijmegen.nl',
         scope: 'openid idp_scoping:microsoft',
