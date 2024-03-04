@@ -1,10 +1,10 @@
 # To do for demo
 - [x] Kiezen voor ~~AD groep~~ of voor email
 - [x] Demo schema PR mergen https://github.com/privacybydesign/irma-demo-schememanager/pull/126
-- [ ] Disclosure age testen
-- [ ] Disclosure employee testen
-- [ ] Disclosure koffie counter implementeren
-- [ ] Disclosure koffie testen
+- [x] Disclosure age testen
+- [x] Disclosure employee testen
+- [x] Disclosure koffie counter implementeren
+- [x] Disclosure koffie testen
 
 # To do for live
 - [x] Account aanmaken incl. vpc, monitoring, dns
@@ -21,7 +21,6 @@
   - [ ] OIDC client ID in configuratie object OIDC profiel
 - [ ] Toevoegen CNAME record certificaat yivi-voor-medewerkers.nijmegen.nl
 - [ ] Toevoegen CNAME record yivi-voor-medewerkers.nijmegen.nl
-
 
 
 

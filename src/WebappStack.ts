@@ -63,6 +63,7 @@ export class WebappStack extends Stack {
       postLoginProcessor: this.postLoginHook(),
       oidcProfiles: props.configuration.oidcProfiles,
       cspHeaderValue: this.getCspHeader(props.configuration.cspAllowedConnections),
+      alternativeDomainNames: props.configuration.alternativeDomainNames,
     });
 
     /**

@@ -79,6 +79,10 @@ export interface Configuration {
    * A list of connect-src urls that must be part of the CSP.
    */
   cspAllowedConnections: string[];
+  /**
+   * Alternative domain names for the webapp used for cloudfront & certificate
+   */
+  alternativeDomainNames?: string[];
 }
 
 
@@ -111,6 +115,9 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
     ],
+    alternativeDomainNames: [
+      'yivi-voor-medewerkers.nijmegen.nl',
+    ],
   },
   acceptance: {
     branch: 'acceptance',
@@ -140,35 +147,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
     ],
-  },
-  sandbox: {
-    branch: 'sandbox',
-    buildEnvironment: Statics.gnSandboxMarnix,
-    deploymentEnvironment: Statics.gnSandboxMarnix,
-    pipelineStackCdkName: 'yivi-for-employees-sandbox',
-    pipelineName: 'yivi-for-employees-sandbox',
-    resources: 'src/resources',
-    oidcProfiles: [
-      {
-        name: 'microsoft',
-        title: 'Gemeente Nijmegen',
-        cssClass: 'btn-microsoft',
-        clientId: 'CVotFJe53ZomCfbetVSiykdcqNgzSiIt',
-        clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:049753832279:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-wiUd8V',
-        applicationBaseUrl: 'https://yivi-voor-medewerkers.sandbox-marnix.csp-nijmegen.nl',
-        authenticationBaseUrl: 'https://authenticatie-accp.nijmegen.nl',
-        scope: 'openid idp_scoping:microsoft',
-        immediateRedirect: false,
-      },
-    ],
-    yiviVersionNumber: 'v0.15.1',
-    yiviVersionChecksum: '27182cc8203234eca14b60fe488c1157fce0d1385410a83216436418d5b03a52',
-    alpineLinuxVersion: '3.19.1',
-    yiviDemo: true,
-    useSpotInstances: true,
-    cspAllowedConnections: [
-      'https://api.yivi-voor-medewerkers.sandbox-marnix.csp-nijmegen.nl',
-    ],
+    alternativeDomainNames: undefined, // None for now
   },
 };
 
