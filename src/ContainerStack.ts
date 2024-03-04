@@ -40,6 +40,9 @@ export class ContainerStack extends Stack {
     const vpclink = this.setupVpcLink(loadbalancer);
     const api = this.setupApiGateway();
 
+    // Add dependeny for smooth deployment
+    vpclink.node.addDependency(loadbalancer);
+
     // Setup services and api gateway routes
     this.addIssueServiceAndIntegration(cluster, props, listener);
     this.setupApiRoutes(api, vpclink);
