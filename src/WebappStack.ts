@@ -62,7 +62,7 @@ export class WebappStack extends Stack {
       defaultPath: '/issue',
       postLoginProcessor: this.postLoginHook(),
       oidcProfiles: props.configuration.oidcProfiles,
-      // cspHeaderValue: this.getCspHeader(hostedZone.zoneName),
+      cspHeaderValue: this.getCspHeader(props.configuration.cspAllowedConnections),
     });
 
     /**
@@ -142,11 +142,12 @@ export class WebappStack extends Stack {
   }
 
 
-  getCspHeader(hostedZoneName: string) {
+  getCspHeader(cspAllowedConnections: string[]) {
+    const connections = cspAllowedConnections.join('; ');
     const header = `default-src 'self'; \
     frame-ancestors 'self'; \
     frame-src 'self'; \
-    connect-src 'self' https://componenten.nijmegen.nl https://api.${hostedZoneName}; \
+    connect-src 'self' https://componenten.nijmegen.nl ${connections}; \
     style-src 'self' https://componenten.nijmegen.nl https://fonts.googleapis.com https://fonts.gstatic.com 'sha256-hS1LM/30PjUBJK3kBX9Vm9eOAhQNCiNhf/SCDnUqu14=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-OTeu7NEHDo6qutIWo0F2TmYrDhsKWCzrUgGoxxHGJ8o='; \
     script-src 'self' https://componenten.nijmegen.nl https://siteimproveanalytics.com; \
     font-src 'self' https://componenten.nijmegen.nl https://fonts.gstatic.com; \

@@ -75,6 +75,10 @@ export interface Configuration {
    * ECS spot instances (cheper, but container relocations)
    */
   useSpotInstances: boolean;
+  /**
+   * A list of connect-src urls that must be part of the CSP.
+   */
+  cspAllowedConnections: string[];
 }
 
 
@@ -104,6 +108,9 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     alpineLinuxVersion: '3.19.1',
     yiviDemo: false,
     useSpotInstances: false,
+    cspAllowedConnections: [
+      'https://api.yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
+    ],
   },
   acceptance: {
     branch: 'acceptance',
@@ -130,6 +137,9 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     alpineLinuxVersion: '3.19.1',
     yiviDemo: true,
     useSpotInstances: true,
+    cspAllowedConnections: [
+      'https://api.yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
+    ],
   },
   sandbox: {
     branch: 'sandbox',
@@ -156,6 +166,9 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     alpineLinuxVersion: '3.19.1',
     yiviDemo: true,
     useSpotInstances: true,
+    cspAllowedConnections: [
+      'https://api.yivi-voor-medewerkers.sandbox-marnix.csp-nijmegen.nl',
+    ],
   },
 };
 
