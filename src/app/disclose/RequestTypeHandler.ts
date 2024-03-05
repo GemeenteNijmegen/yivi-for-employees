@@ -65,7 +65,6 @@ export class AgeHandler extends RequestTypeHandler {
     ];
   }
   async handleDisclosureRequest(sessionResult: any, _session: Session) {
-    console.log('AgeHandlerResult', JSON.stringify(sessionResult, null, 4));
     const nl = sessionResult.disclosed[0][0].value?.nl;
 
     // Check if we have a dutch value
