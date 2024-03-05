@@ -83,6 +83,11 @@ export interface Configuration {
    * Alternative domain names for the webapp used for cloudfront & certificate
    */
   alternativeDomainNames?: string[];
+  /**
+   * CNAMES to create in project hostedzone
+   * Node: do not include hostedzone name in key
+   */
+  cnameRecords?: {[key:string]: string};
 }
 
 
@@ -99,8 +104,8 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
         name: 'microsoft',
         title: 'Gemeente Nijmegen',
         cssClass: 'btn-microsoft',
-        clientId: 'todo',
-        clientSecretArn: 'todo',
+        clientId: 'qE7hwFskxSAdVXFDZX4Ke50tBQoh9Zsx',
+        clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:767398106682:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-oecdkZ',
         applicationBaseUrl: 'https://yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
         authenticationBaseUrl: 'https://authenticatie.nijmegen.nl',
         scope: 'openid idp_scoping:microsoft',
@@ -115,9 +120,12 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
     ],
-    alternativeDomainNames: [
-      'yivi-voor-medewerkers.nijmegen.nl',
-    ],
+    // alternativeDomainNames: [
+    //   'yivi-voor-medewerkers.nijmegen.nl',
+    // ],
+    // cnameRecords: { // Fill after deployment of above property
+    //     'recordname': 'record value',
+    // },
   },
   acceptance: {
     branch: 'acceptance',
@@ -147,7 +155,12 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
     ],
-    alternativeDomainNames: undefined, // None for now
+    // alternativeDomainNames: [
+    //   'yivi-voor-medewerkers.accp.nijmegen.nl',
+    // ],
+    // cnameRecords: { // Fill after deployment of above property
+    //     'recordname': 'record value',
+    // },
   },
 };
 

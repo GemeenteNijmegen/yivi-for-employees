@@ -9,8 +9,8 @@
 # To do for live
 - [x] Account aanmaken incl. vpc, monitoring, dns
 - [x] Configuratie object aanmaken in project
-- [ ] Mergen naar main
-- [ ] Deploy pipeline naar gn-build
+- [x] Mergen naar main
+- [x] Deploy pipeline naar gn-build
 - [ ] Schema PR mergen https://github.com/privacybydesign/pbdf-schememanager/pull/125
 - [ ] Configureren SSM parameters:
   - [ ] Private key
