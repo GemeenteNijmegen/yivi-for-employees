@@ -59,14 +59,28 @@ export class AgeHandler extends RequestTypeHandler {
     return [ // And
       [ // Or
         [ // List of attributes
-          'irma-demo.gemeente.personalData.over18',
+          'irma-demo.gemeente.personalData.over65',
         ],
       ],
     ];
   }
   async handleDisclosureRequest(sessionResult: any, _session: Session) {
     console.log('AgeHandlerResult', JSON.stringify(sessionResult, null, 4));
-    return sessionResult.disclosed[0][0].rawvalue;
+    const nl = sessionResult.disclosed[0][0].value?.nl;
+
+    // Check if we have a dutch value
+    if (nl && !['ja', 'nee'].includes(nl.toLowerCase())) {
+      return nl;
+    }
+
+    // Hard coded translation of rawvalue
+    const raw = sessionResult.disclosed[0][0].rawvalue;
+    if (raw == 'Yes' || raw == 'yes') {
+      return 'Ja';
+    } else {
+      return 'Nee';
+    }
+
   }
   async confirmRequest(_session: Session) {
     return 'not implemented';
