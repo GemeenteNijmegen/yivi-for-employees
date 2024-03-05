@@ -123,7 +123,9 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     // alternativeDomainNames: [
     //   'yivi-voor-medewerkers.nijmegen.nl',
     // ],
-    cnameRecords: undefined, // TODO fill after deployment
+    // cnameRecords: { // Fill after deployment of above property
+    //     'recordname': 'record value',
+    // },
   },
   acceptance: {
     branch: 'acceptance',
@@ -153,8 +155,12 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
     ],
-    alternativeDomainNames: undefined, // None for now
-    cnameRecords: undefined, // Only project hosted zone so cname is added automatically
+    // alternativeDomainNames: [
+    //   'yivi-voor-medewerkers.accp.nijmegen.nl',
+    // ],
+    // cnameRecords: { // Fill after deployment of above property
+    //     'recordname': 'record value',
+    // },
   },
 };
 
