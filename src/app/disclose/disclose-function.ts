@@ -4,22 +4,22 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 
 /**
- * Props for IssueFunction
+ * Props for DiscloseFunction
  */
-export interface IssueFunctionProps extends lambda.FunctionOptions {
+export interface DiscloseFunctionProps extends lambda.FunctionOptions {
 }
 
 /**
- * An AWS Lambda function which executes src/app/issue/issue.
+ * An AWS Lambda function which executes src/app/disclose/disclose.
  */
-export class IssueFunction extends lambda.Function {
-  constructor(scope: Construct, id: string, props?: IssueFunctionProps) {
+export class DiscloseFunction extends lambda.Function {
+  constructor(scope: Construct, id: string, props?: DiscloseFunctionProps) {
     super(scope, id, {
-      description: 'src/app/issue/issue.lambda.ts',
+      description: 'src/app/disclose/disclose.lambda.ts',
       ...props,
       runtime: new lambda.Runtime('nodejs20.x', lambda.RuntimeFamily.NODEJS),
       handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../assets/app/issue/issue.lambda')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../assets/app/disclose/disclose.lambda')),
     });
     this.addEnvironment('AWS_NODEJS_CONNECTION_REUSE_ENABLED', '1', { removeInEdge: true });
   }

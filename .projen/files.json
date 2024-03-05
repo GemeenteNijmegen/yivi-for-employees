@@ -16,6 +16,7 @@
     ".projen/tasks.json",
     "cdk.json",
     "LICENSE",
+    "src/app/disclose/disclose-function.ts",
     "src/app/issue/issue-function.ts",
     "src/app/post-login/postlogin-function.ts",
     "tsconfig.dev.json",

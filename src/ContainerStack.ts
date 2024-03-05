@@ -26,29 +26,30 @@ export class ContainerStack extends Stack {
 
   private hostedzone: route53.IHostedZone;
   private vpc: ec2.IVpc;
-  private api: apigateway.RestApi;
 
   constructor(scope: Construct, id: string, props: ContainerStackProps) {
     super(scope, id, props);
 
     this.hostedzone = this.importHostedZone();
-    this.vpc = this.setupVpc();
-
-    const cluster = this.constructEcsCluster();
-    const loadbalancer = this.setupLoadbalancer();
-    const listner = this.setupListner(loadbalancer);
+    this.vpc = this.setupVpc(props);
 
     // API Gateway and access to VPC
-    this.api = this.setupApiGateway();
+    const cluster = this.constructEcsCluster();
+    const loadbalancer = this.setupLoadbalancer();
+    const listener = this.setupListner(loadbalancer);
     const vpclink = this.setupVpcLink(loadbalancer);
+    const api = this.setupApiGateway();
+
+    // Add dependeny for smooth deployment
+    vpclink.node.addDependency(loadbalancer);
 
     // Setup services and api gateway routes
-    this.addIssueServiceAndIntegration(cluster, props, listner);
-    this.setupApiRoutes(vpclink);
+    this.addIssueServiceAndIntegration(cluster, props, listener);
+    this.setupApiRoutes(api, vpclink);
 
   }
 
-  setupApiRoutes(vpclink: apigateway.VpcLink) {
+  setupApiRoutes(api: apigateway.RestApi, vpclink: apigateway.VpcLink) {
 
     // Public
     const irmaIntegration = new apigateway.Integration({
@@ -63,7 +64,7 @@ export class ContainerStack extends Stack {
         },
       },
     });
-    const irma = this.api.root.addResource('irma');
+    const irma = api.root.addResource('irma');
     irma.addProxy({
       defaultIntegration: irmaIntegration,
       defaultMethodOptions: {
@@ -75,7 +76,7 @@ export class ContainerStack extends Stack {
     });
 
     // Private paths below
-    const session = this.api.root.addResource('session');
+    const session = api.root.addResource('session');
     const result = session.addResource('{requestorToken}').addResource('result');
 
     // POST /session
@@ -92,7 +93,7 @@ export class ContainerStack extends Stack {
       },
     });
     session.addMethod('POST', sessionIntegration, {
-      authorizationType: apigateway.AuthorizationType.IAM,
+      authorizationType: apigateway.AuthorizationType.NONE,
       requestParameters: {
         'method.request.header.irma-authorization': true,
       },
@@ -108,27 +109,36 @@ export class ContainerStack extends Stack {
         timeout: Duration.seconds(6),
         requestParameters: {
           'integration.request.header.authorization': 'method.request.header.irma-authorization',
+          'integration.request.path.requestorToken': 'method.request.path.requestorToken',
         },
       },
     });
     result.addMethod('GET', resultIntegration, {
-      authorizationType: apigateway.AuthorizationType.IAM,
+      authorizationType: apigateway.AuthorizationType.NONE,
       requestParameters: {
         'method.request.header.irma-authorization': true,
+        'method.request.path.requestorToken': true,
       },
     });
 
   }
 
-  setupVpc() {
+  setupVpc(props: ContainerStackProps) {
 
     // Import vpc config (only public and private subnets)
     const vpcId = ssm.StringParameter.valueForStringParameter(this, '/landingzone/vpc/vpc-id');
     const availabilityZones = [0, 1, 2].map(i => Fn.select(i, Fn.getAzs(Aws.REGION)));
-    const publicSubnetRouteTableIds = Array(3).fill(ssm.StringParameter.valueForStringParameter(this, '/landingzone/vpc/route-table-public-subnets-id'));
     const privateSubnetRouteTableIds = [1, 2, 3].map(i => ssm.StringParameter.valueForStringParameter(this, `/landingzone/vpc/route-table-private-subnet-${i}-id`));
     const publicSubnetIds = [1, 2, 3].map(i => ssm.StringParameter.valueForStringParameter(this, `/landingzone/vpc/public-subnet-${i}-id`));
     const privateSubnetIds = [1, 2, 3].map(i => ssm.StringParameter.valueForStringParameter(this, `/landingzone/vpc/private-subnet-${i}-id`));
+
+    let publicSubnetRouteTableIds = undefined;
+    if (props.configuration.branch.includes('sandbox')) {
+      // Why is this different than in non sandbox vpcs?
+      publicSubnetRouteTableIds = Array(3).fill(ssm.StringParameter.valueForStringParameter(this, '/platformunited/landing-zone/vpc/route-table-public-subnets-id'));
+    } else {
+      publicSubnetRouteTableIds = Array(3).fill(ssm.StringParameter.valueForStringParameter(this, '/landingzone/vpc/route-table-public-subnets-id'));
+    }
 
     const vpc = ec2.Vpc.fromVpcAttributes(this, 'vpc', {
       vpcId,
@@ -171,7 +181,7 @@ export class ContainerStack extends Stack {
   setupApiGateway() {
 
     const cert = new acm.Certificate(this, 'api-cert', {
-      domainName: this.hostedzone.zoneName,
+      domainName: `api.${this.hostedzone.zoneName}`,
       validation: acm.CertificateValidation.fromDns(this.hostedzone),
     });
 
@@ -180,10 +190,10 @@ export class ContainerStack extends Stack {
     });
 
     const api = new apigateway.RestApi(this, 'api', {
-      description: 'API gateway for yivi-brp issue server',
+      description: 'API gateway for yivi-for-employees issue server',
       domainName: {
         certificate: cert,
-        domainName: this.hostedzone.zoneName,
+        domainName: `api.${this.hostedzone.zoneName}`,
         securityPolicy: apigateway.SecurityPolicy.TLS_1_2,
       },
       //policy: this.setupApiGatewayPolicy(props),
@@ -221,46 +231,13 @@ export class ContainerStack extends Stack {
     }
     const alias = new route53Targets.ApiGatewayDomain(api.domainName);
     new route53.ARecord(this, 'api-a-record', {
+      recordName: `api.${this.hostedzone.zoneName}`,
       zone: this.hostedzone,
       target: route53.RecordTarget.fromAlias(alias),
     });
 
     return api;
   }
-
-
-  // setupApiGatewayPolicy(user: iam.User) {
-  //   const region = Stack.of(this).region;
-  //   const accountId = Stack.of(this).account;
-
-  //   // const user = new iam.User(this, 'yivi-api-user', {});
-  //   // const
-
-  //   return new iam.PolicyDocument({
-  //     statements: [
-  //       new iam.PolicyStatement({
-  //         actions: ['execute-api:Invoke'],
-  //         principals: [
-  //           new iam.ArnPrincipal(user.userArn),
-  //         ],
-  //         effect: iam.Effect.ALLOW,
-  //         resources: [
-  //           // Only allow invokation of this single endpoint
-  //           `arn:aws:execute-api:${region}:${accountId}:*/prod/POST/session`,
-  //         ],
-  //       }),
-  //       new iam.PolicyStatement({
-  //         actions: ['execute-api:Invoke'],
-  //         principals: [new iam.AnyPrincipal()],
-  //         effect: iam.Effect.ALLOW,
-  //         resources: [
-  //           `arn:aws:execute-api:${region}:${accountId}:*/prod/*/irma`,
-  //           `arn:aws:execute-api:${region}:${accountId}:*/prod/*/irma/*`,
-  //         ],
-  //       }),
-  //     ],
-  //   });
-  // }
 
   /**
    * Import the account vpc from the landingzone
@@ -353,7 +330,7 @@ export class ContainerStack extends Stack {
         IRMA_GEMEENTE_PRIVKEY: ecs.Secret.fromSecretsManager(privateKey),
       },
       environment: {
-        IRMA_GW_URL: this.hostedzone.zoneName, // protocol prefix is added in the container
+        IRMA_GW_URL: `api.${this.hostedzone.zoneName}`, // protocol prefix is added in the container
       },
     });
 

@@ -1,16 +1,12 @@
+import { createHash } from 'crypto';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { ApiClient } from '@gemeentenijmegen/apiclient';
 import { Response } from '@gemeentenijmegen/apigateway-http/lib/V2/Response';
 import { Session } from '@gemeentenijmegen/session';
-import { Bsn } from '@gemeentenijmegen/utils';
-import { BrpApi } from '../util/BrpApi';
 
 export class PostLoginRequestHandler {
   private dynamoDBClient: DynamoDBClient;
-  private apiClient: ApiClient;
-  constructor(dynamoDBClient: DynamoDBClient, apiClient: ApiClient) {
+  constructor(dynamoDBClient: DynamoDBClient) {
     this.dynamoDBClient = dynamoDBClient;
-    this.apiClient = apiClient;
   }
 
   async handleRequest(cookies: string) {
@@ -30,23 +26,35 @@ export class PostLoginRequestHandler {
     // Get the claims from the session
     const claims = JSON.parse(session.getValue('claims'));
     const profileUsed = session.getValue('profileUsed');
+    console.log('profileUsed', profileUsed);
     if (!claims || ! profileUsed) {
       return Response.redirect('/login');
     }
 
     // Try to get the BSN from the claims depending on the profile used.
-    const bsn = this.bsnFromClaims(claims, profileUsed);
-    if (!bsn) {
+    console.log('Validating claims...');
+    const groups = JSON.parse(claims.groups);
+    const name = claims.name;
+    const email = claims.email;
+    if (!groups || !name || !email) {
       return Response.redirect('/login');
     }
 
-    // Call BRP to get the username and store it in the session
+    // Do not check if user is employee of nijmegen. The user is in the AD
+    // so it might be iRvN, Beuningen or another organization. We will only
+    // issue the worksForGemeenteNijmegen=Yes card based on email address.
+
+    // Do some logging for tracking the unique number of authentications later on
+    const emailHash = createHash('sha256').update(email).digest('hex');
+    console.log('User authenticated: ', emailHash);
+
+    // Create the session and redirect
     try {
-      const username = await this.loggedinUserName(bsn.bsn, this.apiClient);
       await session.createSession({
         loggedin: { BOOL: true },
-        bsn: { S: bsn.bsn },
-        username: { S: username },
+        groups: { S: claims.groups },
+        name: { S: name },
+        email: { S: email },
       });
     } catch (error: any) {
       console.error(error.message);
@@ -54,38 +62,6 @@ export class PostLoginRequestHandler {
     }
 
     return Response.redirect('/', 302, session.getCookie());
-  }
-
-
-  async loggedinUserName(bsn: string, apiClient: ApiClient) {
-    try {
-      const brpApi = new BrpApi(apiClient);
-      const brpData = await brpApi.getBrpData(bsn);
-      const naam = brpData?.Persoon?.Persoonsgegevens?.Naam ? brpData.Persoon.Persoonsgegevens.Naam : 'Onbekende gebruiker';
-      return naam;
-    } catch (error) {
-      console.error('Error getting username');
-      return 'Onbekende gebruiker';
-    }
-  }
-
-  bsnFromClaims(claims: any, profileUsed: string): Bsn | false {
-    if (profileUsed == 'digid') {
-      const digidBsn = claims.sub;
-      return new Bsn(digidBsn as string);
-    }
-
-    if (profileUsed == 'yivi') {
-      // TODO make work with different claims (eHerkenning, demo-schema bsn)
-      const yiviBsn = claims['irma-demo.gemeente.personalData.bsn'];
-      return new Bsn(yiviBsn as string);
-    }
-
-    if (profileUsed == 'eherkenning') {
-      // TODO Do some eherkenning processing using KVK...
-    }
-
-    return false;
   }
 
 }

@@ -3,19 +3,50 @@
 <main>
     <!-- START: template component(s) -->
     <div class="container" id="section-1">
-            <h1>Inloggen Mijn Nijmegen</h1>
-            <p class="lead">U kunt kiezen om met DigiD in te loggen of met Yivi.</p>
+            
             <div class="login-selector">
-                {{#authenticationOptions}}
+
                 <div>
-                    <a href="{{{authUrl}}}" class="btn btn-primary waves-effect waves-light display-table {{class}}">
-                        <span class="title"> Inloggen </span><span class="assistive">met {{title}}</span>
+                    <h1>Ophalen</h1>
+                    <p class="lead">Login met je Gemeente Nijmegen account om je medewerkersgegevens in Yivi te laden.</p>
+                    {{#authenticationOptions}}
+                        <a href="{{{authUrl}}}" class="btn btn-primary waves-effect waves-light display-table {{class}}">
+                            <span class="title"> Inloggen </span><span class="assistive">bij {{title}}</span>
+                        </a>
+                    {{/authenticationOptions}}
+                </div>
+
+                <div>
+                    <h1>Zelf proberen?</h1>
+                    <p class="lead">Check met Yivi of iemand een medewerker van Gemeente Nijmegen is.</p>
+                    <a href="/disclose?type=employee" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                        <span class="title"> Aantonen dat je bij Gemeente Nijmegen werkt </span>
+                    </a>
+                    <a href="/disclose?type=koffie" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                        <span class="title"> Claim jouw gratis kop koffie in de kantine </span>
+                    </a>
+                    <a href="/disclose?type=age" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                        <span class="title"> Aantonen dat je 18 jaar of ouder bent </span>
                     </a>
                 </div>
-                {{/authenticationOptions}}
+                
             </div>
-            <p>Door in te loggen geeft u uw BSN (BurgerServiceNummer) door. Dit is een uniek nummer waaraan uw persoonlijke gegevens zijn gekoppeld. Wij vragen uw BSN zodat u alleen uw gegevens ziet. Met Yivi ziet u welke gegevens van u gevraagd worden als u inlogt. <a href="https://www.nijmegen.nl/diensten/privacy/yivi-nieuwe-manier-van-inloggen/">Lees meer over Yivi</a>.
-        </div>
+            <hr/>
+            <h1>Wat is Yivi?</h1>
+            <p>
+            Yivi is een app die u op uw mobiele telefoon kunt installeren. In de app staan
+            al uw gegevens veilig achter een pincode op uw mobiel en alléén op uw mobiel. 
+            Met Yivi kunt u bewijzen wie u bent, zonder dat u onnodige gegevens deelt.
+            </p>
+
+            <p>
+            Met Yivi ziet u wat een organisatie van u wil weten. Als u bijvoorbeeld wil 
+            meebeslissen over de stad, is het vaak voldoende om aan te tonen dat u in 
+            Nijmegen woont of werkt. In andere gevallen zijn meer persoonsgegevens nodig, 
+            zoals een burgerservicenummer of geboortedatum. Zo voorkomt u dat u onnodige 
+            gegevens deelt.
+            </p>
+            <p><a href="https://www.nijmegen.nl/diensten/privacy/yivi-nieuwe-manier-van-inloggen/">Lees meer over Yivi</a>.
     </div>
     <!-- END: template component(s) -->
 </main>

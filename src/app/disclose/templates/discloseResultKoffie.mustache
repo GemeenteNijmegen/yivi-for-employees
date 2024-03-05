@@ -1,0 +1,35 @@
+{{>header}}
+
+<main>
+    <!-- START: template component(s) -->
+    <div class="container" id="section-1">
+        <div class="row">
+            <div class="col-12">
+
+                {{#error}}
+                <div class="error"> 
+                    <h1>Er is iets fout gegaan</h1>
+                    <p class="lead">{{error}}</p>
+                </div>
+                {{/error}}
+
+                <h1>Gratis koffie?</h1>
+                <p class="lead">Claim je gratis kop koffie door de Yivi app te gebruiken.</p>
+                <p>{{result.message}}</p>
+                {{#result.allowed}}
+                 <a href="/disclose?type=koffie&action=confirm" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                    <span class="title"> Claim je kop koffie </span>
+                </a>
+                {{/result.allowed}}
+
+                <a href="/login" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                    <span class="title"> Terug </span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <!-- END: template component(s) -->
+</main>
+
+{{>footer}}
