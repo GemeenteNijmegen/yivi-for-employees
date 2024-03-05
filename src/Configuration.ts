@@ -83,6 +83,11 @@ export interface Configuration {
    * Alternative domain names for the webapp used for cloudfront & certificate
    */
   alternativeDomainNames?: string[];
+  /**
+   * CNAMES to create in project hostedzone
+   * Node: do not include hostedzone name in key
+   */
+  cnameRecords?: {[key:string]: string};
 }
 
 
@@ -115,9 +120,10 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
     ],
-    alternativeDomainNames: [
-      'yivi-voor-medewerkers.nijmegen.nl',
-    ],
+    // alternativeDomainNames: [
+    //   'yivi-voor-medewerkers.nijmegen.nl',
+    // ],
+    cnameRecords: undefined, // TODO fill after deployment
   },
   acceptance: {
     branch: 'acceptance',
@@ -148,6 +154,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
     ],
     alternativeDomainNames: undefined, // None for now
+    cnameRecords: undefined, // Only project hosted zone so cname is added automatically
   },
 };
 

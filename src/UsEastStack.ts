@@ -1,6 +1,7 @@
+import { createHash } from 'crypto';
 import { Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
-import { HostedZone, HostedZoneAttributes, IHostedZone, NsRecord } from 'aws-cdk-lib/aws-route53';
+import { CnameRecord, HostedZone, HostedZoneAttributes, IHostedZone, NsRecord } from 'aws-cdk-lib/aws-route53';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
@@ -10,6 +11,7 @@ export interface UsEastStackProps extends StackProps {
   accountHostedZoneRegion: string;
   subdomain: string;
   alternativeDomainNames?: string[];
+  cnameRecords?: {[key:string]: string};
 }
 
 export class UsEastStack extends Stack {
@@ -24,7 +26,7 @@ export class UsEastStack extends Stack {
 
     const attributes = this.getZoneAttributesFromRegion(props);
     const accountHostedZone = HostedZone.fromHostedZoneAttributes(this, 'account-hosted-zone', attributes);
-    const hostedZone = this.setupProjectHostedZone(accountHostedZone);
+    const hostedZone = this.setupProjectHostedZone(accountHostedZone, props);
     this.setupCertificate(hostedZone, props);
 
   }
@@ -34,7 +36,7 @@ export class UsEastStack extends Stack {
    * @param accountHostedZone
    * @returns
    */
-  private setupProjectHostedZone(accountHostedZone: IHostedZone) {
+  private setupProjectHostedZone(accountHostedZone: IHostedZone, props: UsEastStackProps) {
 
     // Create hosted zone
     const zone = new HostedZone(this, 'managment-csp', {
@@ -61,6 +63,17 @@ export class UsEastStack extends Stack {
       values: zone.hostedZoneNameServers,
       recordName: this.subdomain,
     });
+
+    if (props.cnameRecords) {
+      Object.entries(props.cnameRecords).forEach( ([name, value]: string[]) => {
+        const hash = createHash('sha256').update(name + value).digest('hex').substring(0, 6);
+        new CnameRecord(this, `cname-${hash}`, {
+          recordName: name,
+          domainName: value,
+          zone: zone,
+        });
+      });
+    }
 
     return zone;
   }

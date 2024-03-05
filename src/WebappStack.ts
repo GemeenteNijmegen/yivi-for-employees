@@ -154,7 +154,6 @@ export class WebappStack extends Stack {
     font-src 'self' https://componenten.nijmegen.nl https://fonts.gstatic.com; \
     img-src 'self' https://componenten.nijmegen.nl data: https://*.siteimproveanalytics.io; \
     object-src 'none';`;
-    console.log('CSP', header);
     return header;
   }
 
