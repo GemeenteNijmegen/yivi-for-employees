@@ -23,7 +23,7 @@ export class AppStage extends Stage {
       env: { region: 'us-east-1' },
       accountHostedZoneRegion: 'eu-central-1',
       subdomain: 'yivi-voor-medewerkers',
-      alternativeDomainNames: undefined, // No nijmegen.nl subdomain
+      alternativeDomainNames: props.configuration.alternativeDomainNames,
     });
 
     // Keep state in a separate stack
