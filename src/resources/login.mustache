@@ -7,11 +7,11 @@
             <div class="login-selector">
 
                 <div>
-                    <h1>Ophalen</h1>
-                    <p class="lead">Login met je Gemeente Nijmegen account om je medewerkersgegevens in Yivi te laden.</p>
+                    <h1>Ophalen personeelsgegevens</h1>
+                    <p class="lead">Haal nu je personeelsgegevens op met Yivi.</p>
                     {{#authenticationOptions}}
                         <a href="{{{authUrl}}}" class="btn btn-primary waves-effect waves-light display-table {{class}}">
-                            <span class="title"> Inloggen </span><span class="assistive">bij {{title}}</span>
+                            <span class="title">Ophalen personeelsgegevens</span>
                         </a>
                     {{/authenticationOptions}}
                 </div>
@@ -22,9 +22,9 @@
                     <a href="/disclose?type=employee" class="btn btn-primary waves-effect waves-light display-table btn-normal">
                         <span class="title"> Aantonen dat je bij Gemeente Nijmegen werkt </span>
                     </a>
-                    <a href="/disclose?type=koffie" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                    {{! <a href="/disclose?type=koffie" class="btn btn-primary waves-effect waves-light display-table btn-normal">
                         <span class="title"> Claim jouw gratis kop koffie in de kantine </span>
-                    </a>
+                    </a> }}
                     <a href="/disclose?type=age" class="btn btn-primary waves-effect waves-light display-table btn-normal">
                         <span class="title"> Aantonen dat je 18 jaar of ouder bent </span>
                     </a>

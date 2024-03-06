@@ -103,8 +103,8 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
       {
         name: 'microsoft',
         title: 'Gemeente Nijmegen',
-        cssClass: 'btn-microsoft',
-        clientId: 'qE7hwFskxSAdVXFDZX4Ke50tBQoh9Zsx',
+        cssClass: 'btn-yivi',
+        clientId: 'Z4OPWEmbkMxFJjBemt9sqNz0eDJQFIzT',
         clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:767398106682:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-oecdkZ',
         applicationBaseUrl: 'https://yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
         authenticationBaseUrl: 'https://authenticatie.nijmegen.nl',
@@ -138,7 +138,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
       {
         name: 'microsoft',
         title: 'Gemeente Nijmegen',
-        cssClass: 'btn-microsoft',
+        cssClass: 'btn-yivi',
         clientId: 'CVotFJe53ZomCfbetVSiykdcqNgzSiIt',
         clientSecretArn: 'arn:aws:secretsmanager:eu-central-1:992382808833:secret:/cdk/yivi-for-employees/secrets/oidc/client-secret-zCfjKX',
         applicationBaseUrl: 'https://yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
