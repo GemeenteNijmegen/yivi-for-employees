@@ -28,11 +28,13 @@ export class AppStage extends Stage {
 
     // Keep state in a separate stack
     const storageStack = new StorageStack(this, 'storage', {
+      env: props.configuration.deploymentEnvironment,
       configuration: props.configuration,
     });
 
     // Deploy our webapp
     const webappStack = new WebappStack(this, 'web', {
+      env: props.configuration.deploymentEnvironment,
       configuration: props.configuration,
     });
     webappStack.addDependency(usEastStack);
