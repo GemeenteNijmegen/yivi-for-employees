@@ -24,17 +24,14 @@ export interface Configuration {
    * Branch name for the applicible branch (this branch)
    */
   branch: string;
-
   /**
    * Environment to place the pipeline
    */
   buildEnvironment: Environment;
-
   /**
    * Environment to deploy the application
    */
   deploymentEnvironment: Environment;
-
   /**
    * The CDK name of the pipeline stack (can be removed after
    * moving to new lz)
@@ -82,7 +79,7 @@ export interface Configuration {
   /**
    * Alternative domain names for the webapp used for cloudfront & certificate
    */
-  alternativeDomainNames?: string[];
+  alternativeDomainName?: string;
   /**
    * CNAMES to create in project hostedzone
    * Node: do not include hostedzone name in key
@@ -155,10 +152,9 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
     ],
-    // alternativeDomainNames: [
-    //   'yivi-voor-medewerkers.accp.nijmegen.nl',
-    // ],
-    // // cnameRecords: { // Fill after deployment of above property
+    alternativeDomainName: 'yivi-voor-medewerkers.accp.nijmegen.nl',
+
+    // cnameRecords: { // Fill after deployment of above property
     //     'recordname': 'record value',
     // },
   },

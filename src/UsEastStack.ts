@@ -10,7 +10,7 @@ import { Statics } from './Statics';
 export interface UsEastStackProps extends StackProps {
   accountHostedZoneRegion: string;
   subdomain: string;
-  alternativeDomainNames?: string[];
+  alternativeDomainName?: string;
   cnameRecords?: {[key:string]: string};
 }
 
@@ -87,13 +87,14 @@ export class UsEastStack extends Stack {
 
     // Only do DNS validation automatically when we only have our hostedzone
     let validation = CertificateValidation.fromDns();
-    if (!props.alternativeDomainNames) {
+    if (!props.alternativeDomainName) {
       validation = CertificateValidation.fromDns(hostedZone);
     }
 
+    // Note: if we pass props.alternativeDomainName as an array the Certificate construct will fail
     const certificate = new Certificate(this, 'certificate', {
       domainName: hostedZone.zoneName,
-      subjectAlternativeNames: props.alternativeDomainNames,
+      subjectAlternativeNames: props.alternativeDomainName ? [props.alternativeDomainName] : undefined,
       validation: validation,
     });
 
