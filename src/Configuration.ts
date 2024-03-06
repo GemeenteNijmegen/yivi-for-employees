@@ -153,10 +153,9 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-accp.csp-nijmegen.nl',
     ],
     alternativeDomainName: 'yivi-voor-medewerkers.accp.nijmegen.nl',
-
-    // cnameRecords: { // Fill after deployment of above property
-    //     'recordname': 'record value',
-    // },
+    cnameRecords: {
+      _1b3f552b2f080fa22f9fd6de9f4286dd: '_584f755149f6ba0d2774d6828a5e7cea.mhbtsbpdnt.acm-validations.aws.',
+    },
   },
 };
 
