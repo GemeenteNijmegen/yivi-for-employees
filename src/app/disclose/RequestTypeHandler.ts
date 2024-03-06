@@ -59,27 +59,14 @@ export class AgeHandler extends RequestTypeHandler {
     return [ // And
       [ // Or
         [ // List of attributes
-          'irma-demo.gemeente.personalData.over65',
+          'pbdf.gemeente.personalData.over65',
         ],
       ],
     ];
   }
   async handleDisclosureRequest(sessionResult: any, _session: Session) {
-    const nl = sessionResult.disclosed[0][0].value?.nl;
-
-    // Check if we have a dutch value
-    if (nl && !['ja', 'nee'].includes(nl.toLowerCase())) {
-      return nl;
-    }
-
-    // Hard coded translation of rawvalue
-    const raw = sessionResult.disclosed[0][0].rawvalue;
-    if (raw == 'Yes' || raw == 'yes') {
-      return 'Ja';
-    } else {
-      return 'Nee';
-    }
-
+    const value = sessionResult.disclosed[0][0].rawvalue;
+    return mapToJaNee(value);
   }
   async confirmRequest(_session: Session) {
     return 'not implemented';
@@ -157,3 +144,18 @@ export class AgeHandler extends RequestTypeHandler {
 
 // }
 
+function mapToJaNee(value: string) {
+  switch (value) {
+    case 'Ja':
+    case 'ja':
+    case 'Yes':
+    case 'yes':
+      return 'Ja';
+    case 'nee':
+    case 'Nee':
+    case 'no':
+    case 'No':
+    default:
+      return 'Nee';
+  }
+}
