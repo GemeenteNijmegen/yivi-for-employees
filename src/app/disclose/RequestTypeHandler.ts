@@ -34,7 +34,7 @@ export class EmployeeHandler extends RequestTypeHandler {
     return [ // And
       [ // Or
         [ // List of attributes
-          'irma-demo.nijmegen.employeeData.worksForGemeenteNijmegen',
+          'pbdf.nijmegen.employeeData.worksForGemeenteNijmegen',
         ],
       ],
     ];
