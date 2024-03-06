@@ -35,7 +35,10 @@ if (yiviFullSessionEncoded) {
     });
 
     yiviClient.start()
-        .then(() => console.log('Issuing completed!'))
+        .then(() => {
+            document.getElementById('logout-button').classList.remove('hidden');
+            console.log('Issuing completed!');
+        })
         .catch((err) => {
             document.getElementById('retry-button').classList.remove('hidden');
             console.error("Could not complete issuing session", err);
