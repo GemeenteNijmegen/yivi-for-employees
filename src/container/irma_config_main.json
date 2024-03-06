@@ -12,7 +12,8 @@
   "email": "devops@nijmegen.nl",
   "no_email": "false",
   "disclose_perms": [
-    "pbdf.nijmegen.*"
+    "pbdf.nijmegen.*",
+    "pbdf.gemeente.*"
   ],
   "sign_perms": [
     "pbdf.nijmegen.*"

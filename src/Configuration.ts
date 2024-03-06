@@ -158,7 +158,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     // alternativeDomainNames: [
     //   'yivi-voor-medewerkers.accp.nijmegen.nl',
     // ],
-    // cnameRecords: { // Fill after deployment of above property
+    // // cnameRecords: { // Fill after deployment of above property
     //     'recordname': 'record value',
     // },
   },
