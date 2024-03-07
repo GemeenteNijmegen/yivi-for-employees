@@ -23,7 +23,7 @@ export class AppStage extends Stage {
       env: { region: 'us-east-1' },
       accountHostedZoneRegion: 'eu-central-1',
       subdomain: 'yivi-voor-medewerkers',
-      alternativeDomainNames: props.configuration.alternativeDomainNames,
+      alternativeDomainName: props.configuration.alternativeDomainName,
     });
 
     // Keep state in a separate stack
