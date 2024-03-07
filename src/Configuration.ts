@@ -117,12 +117,10 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     cspAllowedConnections: [
       'https://api.yivi-voor-medewerkers.yivi-nijmegen-prod.csp-nijmegen.nl',
     ],
-    // alternativeDomainNames: [
-    //   'yivi-voor-medewerkers.nijmegen.nl',
-    // ],
-    // cnameRecords: { // Fill after deployment of above property
-    //     'recordname': 'record value',
-    // },
+    alternativeDomainName: 'yivi-voor-medewerkers.nijmegen.nl',
+    cnameRecords: {
+      _db2e1a50731e8cd5af9d084292a021c8: '_8ba10d75f0a47cffd01b77f8db1c0e96.mhbtsbpdnt.acm-validations.aws.',
+    },
   },
   acceptance: {
     branch: 'acceptance',
