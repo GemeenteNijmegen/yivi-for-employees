@@ -10,6 +10,8 @@
     "bundle:app/issue/issue.lambda:watch": "npx projen bundle:app/issue/issue.lambda:watch",
     "bundle:app/post-login/postlogin.lambda": "npx projen bundle:app/post-login/postlogin.lambda",
     "bundle:app/post-login/postlogin.lambda:watch": "npx projen bundle:app/post-login/postlogin.lambda:watch",
+    "bundle:app/voetbalpool/voetbalpool.lambda": "npx projen bundle:app/voetbalpool/voetbalpool.lambda",
+    "bundle:app/voetbalpool/voetbalpool.lambda:watch": "npx projen bundle:app/voetbalpool/voetbalpool.lambda:watch",
     "clobber": "npx projen clobber",
     "compile": "npx projen compile",
     "default": "npx projen default",

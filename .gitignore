@@ -62,6 +62,7 @@ junit.xml
 !/src/app/disclose/disclose-function.ts
 !/src/app/issue/issue-function.ts
 !/src/app/post-login/postlogin-function.ts
+!/src/app/voetbalpool/voetbalpool-function.ts
 !/.github/workflows/emergency.yml
 !/.github/workflows/auto-merge.yml
 !/.projenrc.js
