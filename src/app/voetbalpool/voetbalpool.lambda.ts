@@ -11,6 +11,9 @@ export async function handler (event: APIGatewayProxyEventV2, _context: any) :Pr
     if (!body) {
       return Response.error(400, 'No body');
     }
+    if (body.length > 400) {
+      return Response.error(400, 'Too big');
+    }
 
     const obj = JSON.parse(body);
     if (!obj || !obj.email) {
