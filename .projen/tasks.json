@@ -53,6 +53,9 @@
         },
         {
           "spawn": "bundle:app/post-login/postlogin.lambda"
+        },
+        {
+          "spawn": "bundle:app/voetbalpool/voetbalpool.lambda"
         }
       ]
     },
@@ -107,6 +110,24 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/app/post-login/postlogin.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/post-login/postlogin.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+        }
+      ]
+    },
+    "bundle:app/voetbalpool/voetbalpool.lambda": {
+      "name": "bundle:app/voetbalpool/voetbalpool.lambda",
+      "description": "Create a JavaScript bundle from src/app/voetbalpool/voetbalpool.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+        }
+      ]
+    },
+    "bundle:app/voetbalpool/voetbalpool.lambda:watch": {
+      "name": "bundle:app/voetbalpool/voetbalpool.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/app/voetbalpool/voetbalpool.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
         }
       ]
     },

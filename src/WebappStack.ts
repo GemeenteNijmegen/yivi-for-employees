@@ -1,5 +1,6 @@
 import { Webapp, Webpage } from '@gemeentenijmegen/webapp';
 import { Stack, StackProps, Tags } from 'aws-cdk-lib';
+import { HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { ITable, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
@@ -10,6 +11,7 @@ import { Construct } from 'constructs';
 import { DiscloseFunction } from './app/disclose/disclose-function';
 import { IssueFunction } from './app/issue/issue-function';
 import { PostloginFunction } from './app/post-login/postlogin-function';
+import { VoetbalpoolFunction } from './app/voetbalpool/voetbalpool-function';
 import { Configurable } from './Configuration';
 import { Statics } from './Statics';
 
@@ -76,6 +78,7 @@ export class WebappStack extends Stack {
     // Add other pages!
     this.addIssuePage(webapp, props);
     this.addDisclosurePage(webapp, props, userTable);
+    this.addVoetbalpool(webapp, userTable);
   }
 
   /**
@@ -122,6 +125,22 @@ export class WebappStack extends Stack {
     userTable.grantReadWriteData(disclosureFunction.lambda);
     yiviApiKey.grantRead(disclosureFunction.lambda);
     webapp.addPage('disclose', disclosureFunction, '/disclose');
+  }
+
+  /**
+   * Add a disclosure page to the webapp
+   * @param webapp
+   */
+  addVoetbalpool(webapp: Webapp, userTable: ITable) {
+    const voetbalpoolFunction = new Webpage(this, 'voetbalpool-function', {
+      description: 'Voetbalpool lambda',
+      apiFunction: VoetbalpoolFunction,
+      environment: {
+        USER_TABLE_NAME: userTable.tableName,
+      },
+    });
+    userTable.grantReadWriteData(voetbalpoolFunction.lambda);
+    webapp.addPage('voetbalpool', voetbalpoolFunction, '/voetbalpool', [HttpMethod.POST]);
   }
 
   /**
