@@ -8,29 +8,31 @@
 
                 <div>
                     <h1>Ophalen personeelsgegevens</h1>
-                    <p class="lead">Haal nu je personeelsgegevens op met Yivi.</p>
                     {{#authenticationOptions}}
                         <a href="{{{authUrl}}}" class="btn btn-primary waves-effect waves-light display-table {{class}}">
                             <span class="title">Ophalen personeelsgegevens</span>
                         </a>
                     {{/authenticationOptions}}
-                </div>
-
-                <div>
-                    <h1>Zelf proberen?</h1>
-                    <p class="lead">Check met Yivi of iemand een medewerker van Gemeente Nijmegen is.</p>
                     <a href="/disclose?type=employee" class="btn btn-primary waves-effect waves-light display-table btn-normal">
                         <span class="title"> Aantonen dat je bij Gemeente Nijmegen werkt </span>
                     </a>
-                    {{! <a href="/disclose?type=koffie" class="btn btn-primary waves-effect waves-light display-table btn-normal">
+                    <a href="https://www.nijmegen.nl/diensten/privacy/yivi-nieuwe-manier-van-inloggen/">Lees meer over Yivi</a>.
+                </div>
+
+                <div>
+                    {{! 
+                    <a href="/disclose?type=koffie" class="btn btn-primary waves-effect waves-light display-table btn-normal">
                         <span class="title"> Claim jouw gratis kop koffie in de kantine </span>
-                    </a> }}
+                    </a> 
                     <a href="/disclose?type=age" class="btn btn-primary waves-effect waves-light display-table btn-normal">
                         <span class="title"> Aantonen dat je 65 jaar of ouder bent </span>
                     </a>
+                    }}
                 </div>
                 
             </div>
+
+            {{!
             <hr/>
             <h1>Wat is Yivi?</h1>
             <p>
@@ -46,7 +48,9 @@
             zoals een burgerservicenummer of geboortedatum. Zo voorkomt u dat u onnodige 
             gegevens deelt.
             </p>
-            <p><a href="https://www.nijmegen.nl/diensten/privacy/yivi-nieuwe-manier-van-inloggen/">Lees meer over Yivi</a>.
+            <p>
+            }}
+            
     </div>
     <!-- END: template component(s) -->
 </main>
