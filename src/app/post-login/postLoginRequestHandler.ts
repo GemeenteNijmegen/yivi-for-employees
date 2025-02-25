@@ -1,7 +1,7 @@
+import { createHash } from 'crypto';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Response } from '@gemeentenijmegen/apigateway-http/lib/V2/Response';
 import { Session } from '@gemeentenijmegen/session';
-import { createHash } from 'crypto';
 
 export class PostLoginRequestHandler {
   private dynamoDBClient: DynamoDBClient;
