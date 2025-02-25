@@ -27,13 +27,13 @@ export class PostLoginRequestHandler {
     const claims = JSON.parse(session.getValue('claims'));
     const profileUsed = session.getValue('profileUsed');
     console.log('profileUsed', profileUsed);
-    if (!claims || ! profileUsed) {
+    if (!claims || !profileUsed) {
       return Response.redirect('/login');
     }
 
     // Try to get the BSN from the claims depending on the profile used.
     console.log('Validating claims...');
-    const groups = JSON.parse(claims.groups);
+    const groups = claims.groups;
     const name = claims.name;
     const email = claims.email;
     if (!groups || !name || !email) {
