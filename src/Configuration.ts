@@ -84,11 +84,11 @@ export interface Configuration {
    * CNAMES to create in project hostedzone
    * Node: do not include hostedzone name in key
    */
-  cnameRecords?: {[key:string]: string};
+  cnameRecords?: { [key: string]: string };
 }
 
 
-const EnvironmentConfigurations: {[key:string]: Configuration} = {
+const EnvironmentConfigurations: { [key: string]: Configuration } = {
   main: {
     branch: 'main',
     buildEnvironment: Statics.gnBuild,
@@ -111,7 +111,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     ],
     yiviVersionNumber: 'v0.15.1',
     yiviVersionChecksum: '27182cc8203234eca14b60fe488c1157fce0d1385410a83216436418d5b03a52',
-    alpineLinuxVersion: '3.19.1',
+    alpineLinuxVersion: '3.21.3',
     yiviDemo: false,
     useSpotInstances: false,
     cspAllowedConnections: [
@@ -144,7 +144,7 @@ const EnvironmentConfigurations: {[key:string]: Configuration} = {
     ],
     yiviVersionNumber: 'v0.15.1',
     yiviVersionChecksum: '27182cc8203234eca14b60fe488c1157fce0d1385410a83216436418d5b03a52',
-    alpineLinuxVersion: '3.19.1',
+    alpineLinuxVersion: '3.21.3',
     yiviDemo: true,
     useSpotInstances: true,
     cspAllowedConnections: [
