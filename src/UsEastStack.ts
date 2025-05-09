@@ -1,17 +1,17 @@
-import { createHash } from 'crypto';
-import { Stack, StackProps, Tags } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
 import { CnameRecord, HostedZone, HostedZoneAttributes, IHostedZone, NsRecord } from 'aws-cdk-lib/aws-route53';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
+import { createHash } from 'crypto';
 import { Statics } from './Statics';
 
 export interface UsEastStackProps extends StackProps {
   accountHostedZoneRegion: string;
   subdomain: string;
   alternativeDomainName?: string;
-  cnameRecords?: {[key:string]: string};
+  cnameRecords?: { [key: string]: string };
 }
 
 export class UsEastStack extends Stack {
@@ -65,7 +65,7 @@ export class UsEastStack extends Stack {
     });
 
     if (props.cnameRecords) {
-      Object.entries(props.cnameRecords).forEach( ([name, value]: string[]) => {
+      Object.entries(props.cnameRecords).forEach(([name, value]: string[]) => {
         const hash = createHash('sha256').update(name + value).digest('hex').substring(0, 6);
         new CnameRecord(this, `cname-${hash}`, {
           recordName: name,
@@ -113,6 +113,7 @@ export class UsEastStack extends Stack {
   private getZoneAttributesFromRegion(props: UsEastStackProps): HostedZoneAttributes {
     const parameters = new RemoteParameters(this, 'parameters', {
       path: Statics.accountRootHostedZonePath,
+      timeout: Duration.seconds(10),
       region: props.accountHostedZoneRegion,
     });
     const zoneId = parameters.get(Statics.accountRootHostedZoneId);

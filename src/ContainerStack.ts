@@ -1,15 +1,18 @@
 import {
-  Stack, Fn, Aws, StackProps,
-  aws_ecs as ecs,
-  aws_ssm as ssm,
-  aws_ec2 as ec2,
-  aws_elasticloadbalancingv2 as loadbalancing,
-  aws_route53 as route53,
-  aws_route53_targets as route53Targets,
+  Aws,
+  Duration,
+  Fn,
+  Stack,
+  StackProps,
   aws_certificatemanager as acm,
   aws_apigateway as apigateway,
+  aws_ec2 as ec2,
+  aws_ecs as ecs,
+  aws_elasticloadbalancingv2 as loadbalancing,
   aws_logs as logs,
-  Duration,
+  aws_route53 as route53,
+  aws_route53_targets as route53Targets,
+  aws_ssm as ssm,
 } from 'aws-cdk-lib';
 import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
@@ -163,6 +166,7 @@ export class ContainerStack extends Stack {
     // Import hosted zone (parameters) from us-east-1
     const remoteHostedZone = new RemoteParameters(this, 'remote-hosted-zone', {
       path: Statics.ssmZonePath,
+      timeout: Duration.seconds(10),
       region: 'us-east-1',
     });
     const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hosted-zone', {
