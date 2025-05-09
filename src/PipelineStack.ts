@@ -1,5 +1,5 @@
 import { PermissionsBoundaryAspect } from '@gemeentenijmegen/aws-constructs';
-import { Stack, StackProps, Tags, pipelines, CfnParameter, Aspects } from 'aws-cdk-lib';
+import { Aspects, CfnParameter, Stack, StackProps, Tags, pipelines } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AppStage } from './AppStage';
 import { Configurable } from './Configuration';
@@ -7,7 +7,7 @@ import { ContainerStage } from './ContainerStage';
 import { ParameterStage } from './ParameterStage';
 import { Statics } from './Statics';
 
-export interface PipelineStackProps extends StackProps, Configurable {}
+export interface PipelineStackProps extends StackProps, Configurable { }
 
 export class PipelineStack extends Stack {
   branchName: string;
@@ -44,6 +44,9 @@ export class PipelineStack extends Stack {
       env: {
         BRANCH_NAME: this.branchName,
       },
+      installCommands: [
+        'n 22'
+      ],
       commands: [
         'yarn install --frozen-lockfile',
         'yarn build',
