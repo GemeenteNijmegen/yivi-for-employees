@@ -1,10 +1,10 @@
+import { createHash } from 'crypto';
 import { Duration, Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
 import { CnameRecord, HostedZone, HostedZoneAttributes, IHostedZone, NsRecord } from 'aws-cdk-lib/aws-route53';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
-import { createHash } from 'crypto';
 import { Statics } from './Statics';
 
 export interface UsEastStackProps extends StackProps {
