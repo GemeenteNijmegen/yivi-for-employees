@@ -1,5 +1,5 @@
 import { Webapp, Webpage } from '@gemeentenijmegen/webapp';
-import { Stack, StackProps, Tags } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { ITable, Table } from 'aws-cdk-lib/aws-dynamodb';
@@ -15,7 +15,7 @@ import { VoetbalpoolFunction } from './app/voetbalpool/voetbalpool-function';
 import { Configurable } from './Configuration';
 import { Statics } from './Statics';
 
-export interface WebappStackProps extends StackProps, Configurable {}
+export interface WebappStackProps extends StackProps, Configurable { }
 
 /**
  * Stage responsible for the API Gateway and lambdas
@@ -37,6 +37,7 @@ export class WebappStack extends Stack {
     // Import hosted zone (parameters) from us-east-1
     const remoteHostedZone = new RemoteParameters(this, 'remote-hosted-zone', {
       path: Statics.ssmZonePath,
+      timeout: Duration.seconds(10),
       region: 'us-east-1',
     });
     const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hosted-zone', {
