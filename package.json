@@ -76,7 +76,7 @@
     "@gemeentenijmegen/projen-project-type": "^1.12.2",
     "@gemeentenijmegen/session": "^0.0.35",
     "@gemeentenijmegen/utils": "^0.0.38",
-    "@gemeentenijmegen/webapp": "^0.0.6",
+    "@gemeentenijmegen/webapp": "^1.1.14",
     "@types/mustache": "^4.2.6",
     "aws-cdk-lib": "^2.22.0",
     "axios": "^1.13.6",

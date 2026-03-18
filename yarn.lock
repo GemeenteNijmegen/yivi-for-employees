@@ -127,7 +127,7 @@
     "@aws-lambda-powertools/commons" "^1.18.1"
     lodash.merge "^4.6.2"
 
-"@aws-sdk/client-dynamodb@^3.1011.0", "@aws-sdk/client-dynamodb@^3.357.0", "@aws-sdk/client-dynamodb@^3.496.0", "@aws-sdk/client-dynamodb@^3.984.0":
+"@aws-sdk/client-dynamodb@^3.1011.0", "@aws-sdk/client-dynamodb@^3.984.0":
   version "3.1011.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-dynamodb/-/client-dynamodb-3.1011.0.tgz#1c0eec6447b920883600afee4717bf5faadfab48"
   integrity sha512-oCYlsiLR0qESxmr6LWeUDZH2qITGL69mgFxqFPzrblBfKSZPw6jEzVSB/T6JUqzSQrARnusiLNHxn6eph0rSHQ==
@@ -236,7 +236,7 @@
     "@smithy/util-waiter" "^4.2.13"
     tslib "^2.6.2"
 
-"@aws-sdk/client-secrets-manager@^3.1009.0", "@aws-sdk/client-secrets-manager@^3.1011.0", "@aws-sdk/client-secrets-manager@^3.379.1", "@aws-sdk/client-secrets-manager@^3.489.0", "@aws-sdk/client-secrets-manager@^3.496.0", "@aws-sdk/client-secrets-manager@^3.901.0":
+"@aws-sdk/client-secrets-manager@^3.1009.0", "@aws-sdk/client-secrets-manager@^3.1011.0", "@aws-sdk/client-secrets-manager@^3.901.0":
   version "3.1011.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-secrets-manager/-/client-secrets-manager-3.1011.0.tgz#5636b355b95eab0a56f5ea18964eac79fb8596e8"
   integrity sha512-1tQqovjWamefbC3ot+1stXOT+OP/DrTMvhYjENAIlcshT9vzekmFIGbPtErzAllga4Y2uhXyoI4Rm5YdPqx8LA==
@@ -281,7 +281,7 @@
     "@smithy/util-utf8" "^4.2.2"
     tslib "^2.6.2"
 
-"@aws-sdk/client-ssm@^3.1009.0", "@aws-sdk/client-ssm@^3.379.1", "@aws-sdk/client-ssm@^3.489.0", "@aws-sdk/client-ssm@^3.901.0", "@aws-sdk/client-ssm@^3.975.0":
+"@aws-sdk/client-ssm@^3.1009.0", "@aws-sdk/client-ssm@^3.901.0", "@aws-sdk/client-ssm@^3.975.0":
   version "3.1011.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-ssm/-/client-ssm-3.1011.0.tgz#0f0ccf6074a0a84fc42c1bc87f0a12bfb99ef726"
   integrity sha512-XFrixqhD4Lp9Bq/ZefbeYLp9oOL+4htqo7UxDCgrON0HBoj5u/3bDQPPse7CrfaYVw986mvoDJVRnIY2g+TDjA==
@@ -797,7 +797,7 @@
     fast-xml-parser "5.4.1"
     tslib "^2.6.2"
 
-"@aws-solutions-constructs/aws-lambda-dynamodb@^2.100.1", "@aws-solutions-constructs/aws-lambda-dynamodb@^2.49.0":
+"@aws-solutions-constructs/aws-lambda-dynamodb@^2.100.1":
   version "2.100.1"
   resolved "https://registry.yarnpkg.com/@aws-solutions-constructs/aws-lambda-dynamodb/-/aws-lambda-dynamodb-2.100.1.tgz#39572906e67ef4fb1bc5f8d5d991988b146504fe"
   integrity sha512-pezk9BD6a4UYn7u55EJh0pKGYF1TvzvMOZQozfSDVEcjzc+CHOXU7Gt+pgvrtvo7OId2zUgBRhjf+TAhi7RqoQ==
@@ -1328,15 +1328,6 @@
     "@eslint/core" "^0.17.0"
     levn "^0.4.1"
 
-"@gemeentenijmegen/apiclient@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@gemeentenijmegen/apiclient/-/apiclient-0.0.10.tgz#dea8eaed39af28b463868abc7ad8f60aa62dc6c1"
-  integrity sha512-fCIwVdZGIqQvukO9TyMGWl40aGz0svur05BNyHQxM9vOAlRIlJsLk2x0spyPhV3cz8OxkRBom+MpALAUfsKmVg==
-  dependencies:
-    "@aws-sdk/client-secrets-manager" "^3.489.0"
-    "@aws-sdk/client-ssm" "^3.489.0"
-    axios "^1.6.5"
-
 "@gemeentenijmegen/apiclient@^0.0.41":
   version "0.0.41"
   resolved "https://registry.yarnpkg.com/@gemeentenijmegen/apiclient/-/apiclient-0.0.41.tgz#b62fd465e72dfe8c76f09a38dc73f8e31ac7fba0"
@@ -1353,18 +1344,6 @@
   integrity sha512-sqL/6aK9jMT+dc89YFU+sAwYxJGXlpPZMVNdlb9ibruyGYKzIQBlybkJXIDeP48JID2sMnwExdOaMBkMJqCVVg==
   dependencies:
     "@types/aws-lambda" "^8.10.161"
-
-"@gemeentenijmegen/apigateway-http@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@gemeentenijmegen/apigateway-http/-/apigateway-http-0.0.7.tgz#b2829f6fe0e317413e05cfcb6397361586f35bb7"
-  integrity sha512-hrYgQKTmYIMJcq0+Ph35x7BV53fpIxCIlVmJsja5g9nO/8+9WTPd+ZWePetlXv7ESVNSybWkTSsLBMDSDY/DmQ==
-  dependencies:
-    "@types/aws-lambda" "^8.10.119"
-
-"@gemeentenijmegen/aws-constructs@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@gemeentenijmegen/aws-constructs/-/aws-constructs-0.0.4.tgz#ea4440bfd02f660643ffdbed98867559805369f4"
-  integrity sha512-POfKPHohkk6PQBM5KE4gqks+y4jnNKbitt+pQ4yi+y0fbKgWOj5kRdD3eQKSdDDqqrQx2+lVJah58rLJDAA6LQ==
 
 "@gemeentenijmegen/aws-constructs@^0.0.49":
   version "0.0.49"
@@ -1393,14 +1372,6 @@
     "@aws-sdk/client-dynamodb" "^3.984.0"
     cookie "^0.7.2"
 
-"@gemeentenijmegen/session@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@gemeentenijmegen/session/-/session-0.0.8.tgz#9346e1633c5701925a27bcd7a102e82177efe191"
-  integrity sha512-4Jy0m/OXR3LMbn8NPtHUlJjNTUXU/2fk3028LozsDA+/VDlZxCXi58A/2USYD93ZayauzUGVUfIyLyx0KjuFIw==
-  dependencies:
-    "@aws-sdk/client-dynamodb" "^3.357.0"
-    cookie "^0.5.0"
-
 "@gemeentenijmegen/utils@^0.0.38":
   version "0.0.38"
   resolved "https://registry.yarnpkg.com/@gemeentenijmegen/utils/-/utils-0.0.38.tgz#c2742107c9e1fcfc5b91b1d03673e1d9ad1e3ec8"
@@ -1412,34 +1383,26 @@
     "@aws-sdk/s3-request-presigner" "^3.901.0"
     "@types/aws-lambda" "^8.10.153"
 
-"@gemeentenijmegen/utils@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@gemeentenijmegen/utils/-/utils-0.0.5.tgz#8e11d9fb11398287e14ce86bb30ae6d9fdc8447e"
-  integrity sha512-11FAaiPm9/vntkObNzj8/s5+cB69IZoywoQM6sUPbA9F+1NaiB9QvOphdK/Cf5xnUlcL5CaLkjYXznTifTBmSg==
-  dependencies:
-    "@aws-sdk/client-secrets-manager" "^3.379.1"
-    "@aws-sdk/client-ssm" "^3.379.1"
-
-"@gemeentenijmegen/webapp@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@gemeentenijmegen/webapp/-/webapp-0.0.6.tgz#4e88f26561470d316bd36863ef5660a5384e8a8e"
-  integrity sha512-09HUTW2bSFjHsttE90wTCof9T7dQ3D1Xl5THBBCmStOrAF5rQYJypHJG2Icy/rhSmgBUiJPRHJCYdrRxxsUhsA==
+"@gemeentenijmegen/webapp@^1.1.14":
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/@gemeentenijmegen/webapp/-/webapp-1.1.14.tgz#fe5f5cfef569b3011f7ef16bb5ae1298db5892de"
+  integrity sha512-DEIE/qq5VECZ7dRDL6a8NB2IxyjEuPOqHYj+qPSbGTa1+sijP2qIVs7abiAsrAknFrWR80B9DzLjFdJ1UetP1A==
   dependencies:
     "@aws-lambda-powertools/logger" "^1.17.0"
-    "@aws-sdk/client-dynamodb" "^3.496.0"
-    "@aws-sdk/client-secrets-manager" "^3.496.0"
-    "@aws-solutions-constructs/aws-lambda-dynamodb" "^2.49.0"
-    "@gemeentenijmegen/apiclient" "^0.0.10"
-    "@gemeentenijmegen/apigateway-http" "^0.0.7"
-    "@gemeentenijmegen/aws-constructs" "^0.0.4"
-    "@gemeentenijmegen/session" "^0.0.8"
-    "@gemeentenijmegen/utils" "^0.0.5"
-    axios "^1.6.5"
-    cdk-remote-stack "^2.0.101"
-    cookie "^0.6.0"
-    dotenv "^16.4.0"
+    "@aws-sdk/client-dynamodb" "^3.1011.0"
+    "@aws-sdk/client-secrets-manager" "^3.1011.0"
+    "@aws-solutions-constructs/aws-lambda-dynamodb" "^2.100.1"
+    "@gemeentenijmegen/apiclient" "^0.0.41"
+    "@gemeentenijmegen/apigateway-http" "^0.0.37"
+    "@gemeentenijmegen/aws-constructs" "^0.0.49"
+    "@gemeentenijmegen/session" "^0.0.35"
+    "@gemeentenijmegen/utils" "^0.0.38"
+    axios "^1.13.6"
+    cdk-remote-stack "^2.1.0"
+    cookie "^0.7.2"
+    dotenv "^16.6.1"
     mustache "^4.2.0"
-    openid-client "^5.6.4"
+    openid-client "^5.7.1"
 
 "@glen/jest-raw-loader@^2.0.0":
   version "2.0.0"
@@ -2405,7 +2368,7 @@
   dependencies:
     tslib "^2.4.0"
 
-"@types/aws-lambda@^8.10.119", "@types/aws-lambda@^8.10.153", "@types/aws-lambda@^8.10.160", "@types/aws-lambda@^8.10.161":
+"@types/aws-lambda@^8.10.153", "@types/aws-lambda@^8.10.160", "@types/aws-lambda@^8.10.161":
   version "8.10.161"
   resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.161.tgz#36d95723ec46d3d555bf0684f83cf4d4369a28ad"
   integrity sha512-rUYdp+MQwSFocxIOcSsYSF3YYYC/uUpMbCY/mbO21vGqfrEYvNSoPyKYDj6RhXXpPfS0KstW9RwG3qXh9sL7FQ==
@@ -3012,7 +2975,7 @@ axios-mock-adapter@^1.22.0:
     fast-deep-equal "^3.1.3"
     is-buffer "^2.0.5"
 
-axios@^1.13.6, axios@^1.6.5:
+axios@^1.13.6:
   version "1.13.6"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.13.6.tgz#c3f92da917dc209a15dd29936d20d5089b6b6c98"
   integrity sha512-ChTCHMouEe2kn713WHbQGcuYrr6fXTBiu460OTwWrWob16g1bXn4vtz07Ope7ewMozJAnEquLk5lWQWtBig9DQ==
@@ -3216,7 +3179,7 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-remote-stack@^2.0.101, cdk-remote-stack@^2.1.0:
+cdk-remote-stack@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cdk-remote-stack/-/cdk-remote-stack-2.1.0.tgz#a3d4e557cd5e2fe91cd53d7e19e01f4fda04b504"
   integrity sha512-ycEmgLuRd/SXXFoJOQwcoSVtKekC/8dJjG9ix3wNaWhOtKJ9dcTB55Rk8uL5kAcXT5Z78ho07z6sebg9UL2uXg==
@@ -3329,9 +3292,9 @@ comment-json@4.2.2:
     repeat-string "^1.6.1"
 
 commit-and-tag-version@^12:
-  version "12.7.0"
-  resolved "https://registry.yarnpkg.com/commit-and-tag-version/-/commit-and-tag-version-12.7.0.tgz#d893145125e6b6760a82723efc7458ce98cfe953"
-  integrity sha512-uICrirNtf1FvNydqHLrTPsX7zp74pStCJUuenrxlQSwjrriAYeIPIuIl8z7no3fiQEtvQxjJ/A48rMLY5gqOxQ==
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/commit-and-tag-version/-/commit-and-tag-version-12.7.1.tgz#8614bb814f55a64e315290aa00903d864145d62f"
+  integrity sha512-18+iV9VMPWQ5rryn1nKprvkwqFMx1eOcEwIprjgyGm8Blhsw7WnsFXgyYLIlBF4uG2fcbbps8P7fBZARvaA0VA==
   dependencies:
     chalk "^2.4.2"
     conventional-changelog "4.0.0"
@@ -3341,7 +3304,7 @@ commit-and-tag-version@^12:
     detect-indent "^6.1.0"
     detect-newline "^3.1.0"
     dotgitignore "^2.1.0"
-    fast-xml-parser "^5.3.4"
+    fast-xml-parser "^5.5.6"
     figures "^3.2.0"
     find-up "^5.0.0"
     git-semver-tags "^5.0.1"
@@ -3525,16 +3488,6 @@ convert-source-map@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-2.0.0.tgz#4b560f649fc4e918dd0ab75cf4961e8bc882d82a"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
-
-cookie@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
-  integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
-
-cookie@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.6.0.tgz#2798b04b071b0ecbff0dbb62a505a8efa4e19051"
-  integrity sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==
 
 cookie@^0.7.2:
   version "0.7.2"
@@ -3743,7 +3696,7 @@ dot-prop@^5.1.0:
   dependencies:
     is-obj "^2.0.0"
 
-dotenv@^16.4.0, dotenv@^16.6.1:
+dotenv@^16.6.1:
   version "16.6.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.6.1.tgz#773f0e69527a8315c7285d5ee73c4459d20a8020"
   integrity sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==
@@ -4199,7 +4152,7 @@ fast-xml-parser@5.4.1:
     fast-xml-builder "^1.0.0"
     strnum "^2.1.2"
 
-fast-xml-parser@^5.3.4:
+fast-xml-parser@^5.5.6:
   version "5.5.6"
   resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-5.5.6.tgz#6fc61f5ae06a55a1f058abd6a4f4b5d3e9972cd0"
   integrity sha512-3+fdZyBRVg29n4rXP0joHthhcHdPUHaIC16cuyyd1iLsuaO6Vea36MPrxgAzbZna8lhvZeRL8Bc9GP56/J9xEw==
@@ -5957,7 +5910,7 @@ onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-openid-client@^5.6.4, openid-client@^5.7.1:
+openid-client@^5.7.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-5.7.1.tgz#34cace862a3e6472ed7d0a8616ef73b7fb85a9c3"
   integrity sha512-jDBPgSVfTnkIh71Hg9pRvtJc6wTwqjRkN88+gCFtYWrlP4Yx2Dsrow8uPi3qLr/aeymPF3o2+dS+wOpglK04ew==

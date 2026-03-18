@@ -1,5 +1,5 @@
 import { RemoteParameters } from '@gemeentenijmegen/cross-region-parameters';
-import { Webapp, Webpage } from '@gemeentenijmegen/webapp';
+import { Criticality, Webapp, Webpage } from '@gemeentenijmegen/webapp';
 import { Duration, Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
@@ -67,6 +67,7 @@ export class WebappStack extends Stack {
       oidcProfiles: props.configuration.oidcProfiles,
       cspHeaderValue: this.getCspHeader(props.configuration.cspAllowedConnections),
       alternativeDomainNames: props.configuration.alternativeDomainName ? [props.configuration.alternativeDomainName] : undefined,
+      criticality: new Criticality('low'),
     });
 
     /**
