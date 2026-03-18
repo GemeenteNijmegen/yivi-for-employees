@@ -4,7 +4,7 @@ import { APIGatewayProxyEventV2 } from 'aws-lambda';
 
 const client = new DynamoDBClient({});
 
-export async function handler(event: APIGatewayProxyEventV2, _context: any): Promise<ApiGatewayV2Response> {
+export async function handler(event: APIGatewayProxyEventV2): Promise<ApiGatewayV2Response> {
   try {
 
     const body = event.body;
@@ -30,7 +30,7 @@ export async function handler(event: APIGatewayProxyEventV2, _context: any): Pro
     }));
 
     if (check.Item) { // Al ingevuld
-      return Response.error(409, "Je hebt de voetbalpool al ingevuld");
+      return Response.error(409, 'Je hebt de voetbalpool al ingevuld');
     }
 
     await client.send(new PutItemCommand({

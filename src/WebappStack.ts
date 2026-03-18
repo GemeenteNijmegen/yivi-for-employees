@@ -1,3 +1,4 @@
+import { RemoteParameters } from '@gemeentenijmegen/cross-region-parameters';
 import { Webapp, Webpage } from '@gemeentenijmegen/webapp';
 import { Duration, Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
@@ -6,7 +7,6 @@ import { ITable, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
-import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
 import { DiscloseFunction } from './app/disclose/disclose-function';
 import { IssueFunction } from './app/issue/issue-function';

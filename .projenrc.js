@@ -12,6 +12,7 @@ const project = new GemeenteNijmegenCdkApp({
     '@gemeentenijmegen/aws-constructs',
     '@gemeentenijmegen/apiclient',
     '@gemeentenijmegen/apigateway-http',
+    '@gemeentenijmegen/cross-region-parameters',
     '@gemeentenijmegen/session',
     '@gemeentenijmegen/utils',
     '@gemeentenijmegen/webapp',
