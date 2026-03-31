@@ -25,8 +25,7 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<ApiGateway
     if (!process.env.FOR_ORGANIZATION) {
       validateForNijmegen(obj);
     } else if (process.env.FOR_ORGANIZATION == 'HAN') {
-      const token = event.headers.Authorization;
-      validateForHan(obj, token?.replace('Bearer ', ''));
+      validateForHan(obj);
     }
 
 
@@ -67,8 +66,10 @@ function validateForNijmegen(obj: any) {
   }
 }
 
-function validateForHan(obj: any, token?: string) {
+function validateForHan(obj: any) {
 
+  // Get token from body
+  const token = obj.token;
   if (!token) {
     throw new HttpError(400, 'Missing JWT');
   }
