@@ -165,6 +165,10 @@
       "type": "runtime"
     },
     {
+      "name": "@types/jsonwebtoken",
+      "type": "runtime"
+    },
+    {
       "name": "@types/mustache",
       "type": "runtime"
     },
@@ -192,6 +196,14 @@
     },
     {
       "name": "dotenv",
+      "type": "runtime"
+    },
+    {
+      "name": "jsonwebtoken",
+      "type": "runtime"
+    },
+    {
+      "name": "jwks-rsa",
       "type": "runtime"
     },
     {

@@ -81,6 +81,7 @@ export class WebappStack extends Stack {
     this.addIssuePage(webapp, props);
     this.addDisclosurePage(webapp, props, userTable);
     this.addVoetbalpool(webapp, userTable);
+    this.addVoetbalpoolHAN(webapp, userTable);
   }
 
   /**
@@ -143,6 +144,23 @@ export class WebappStack extends Stack {
     });
     userTable.grantReadWriteData(voetbalpoolFunction.lambda);
     webapp.addPage('voetbalpool', voetbalpoolFunction, '/voetbalpool', [HttpMethod.POST]);
+  }
+
+  /**
+   * Add a disclosure page to the webapp
+   * @param webapp
+   */
+  addVoetbalpoolHAN(webapp: Webapp, userTable: ITable) {
+    const voetbalpoolFunction = new Webpage(this, 'voetbalpool-han-function', {
+      description: 'Voetbalpool lambda (HAN)',
+      apiFunction: VoetbalpoolFunction,
+      environment: {
+        USER_TABLE_NAME: userTable.tableName,
+        FOR_ORGANIZATION: 'HAN',
+      },
+    });
+    userTable.grantReadWriteData(voetbalpoolFunction.lambda);
+    webapp.addPage('voetbalpool-han', voetbalpoolFunction, '/voetbalpool-han', [HttpMethod.POST]);
   }
 
   /**
