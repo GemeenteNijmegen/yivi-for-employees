@@ -37,11 +37,13 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<ApiGateway
       throw new HttpError(409, 'Je hebt de voetbalpool al ingevuld');
     }
 
+    const org = process.env.FOR_ORGANIZATION ?? 'nijmegen';
     await db.send(new PutItemCommand({
       TableName: process.env.USER_TABLE_NAME,
       Item: {
         pk: { S: obj.email },
         request: { S: JSON.stringify(obj) },
+        organization: { S: org },
       },
     }));
 
