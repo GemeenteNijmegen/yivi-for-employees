@@ -12,7 +12,7 @@ function parseEvent(event: APIGatewayProxyEventV2) {
   };
 }
 
-export async function handler (event: any, _context: any):Promise<ApiGatewayV2Response> {
+export async function handler(event: any): Promise<ApiGatewayV2Response> {
   try {
     const params = parseEvent(event);
     return await requestHandler.handleRequest(params.cookies);

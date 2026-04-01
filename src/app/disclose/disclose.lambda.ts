@@ -6,7 +6,7 @@ import { DiscloseRequestHandler, DiscloseRequestHandlerRequest } from './disclos
 const dynamoDBClient = new DynamoDBClient({});
 const requestHandler = new DiscloseRequestHandler(dynamoDBClient);
 
-function parseEvent(event: APIGatewayProxyEventV2) : DiscloseRequestHandlerRequest {
+function parseEvent(event: APIGatewayProxyEventV2): DiscloseRequestHandlerRequest {
   return {
     cookies: event?.cookies?.join(';') ?? '',
     action: event?.queryStringParameters?.action ?? 'start',
@@ -14,7 +14,7 @@ function parseEvent(event: APIGatewayProxyEventV2) : DiscloseRequestHandlerReque
   };
 }
 
-export async function handler (event: any, _context: any):Promise<ApiGatewayV2Response> {
+export async function handler(event: any): Promise<ApiGatewayV2Response> {
   try {
     const params = parseEvent(event);
     return await requestHandler.handleRequest(params);

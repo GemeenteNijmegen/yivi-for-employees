@@ -65,7 +65,7 @@
       "description": "Create a JavaScript bundle from src/app/disclose/disclose.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
         }
       ]
     },
@@ -74,7 +74,7 @@
       "description": "Continuously update the JavaScript bundle from src/app/disclose/disclose.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
         }
       ]
     },
@@ -83,7 +83,7 @@
       "description": "Create a JavaScript bundle from src/app/issue/issue.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/issue/issue.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/issue/issue.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "exec": "esbuild --bundle src/app/issue/issue.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/issue/issue.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
         }
       ]
     },
@@ -92,7 +92,7 @@
       "description": "Continuously update the JavaScript bundle from src/app/issue/issue.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/issue/issue.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/issue/issue.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "exec": "esbuild --bundle src/app/issue/issue.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/issue/issue.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
         }
       ]
     },
@@ -101,7 +101,7 @@
       "description": "Create a JavaScript bundle from src/app/post-login/postlogin.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/post-login/postlogin.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/post-login/postlogin.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "exec": "esbuild --bundle src/app/post-login/postlogin.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/post-login/postlogin.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
         }
       ]
     },
@@ -110,7 +110,7 @@
       "description": "Continuously update the JavaScript bundle from src/app/post-login/postlogin.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/post-login/postlogin.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/post-login/postlogin.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "exec": "esbuild --bundle src/app/post-login/postlogin.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/post-login/postlogin.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
         }
       ]
     },
@@ -119,7 +119,7 @@
       "description": "Create a JavaScript bundle from src/app/voetbalpool/voetbalpool.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
         }
       ]
     },
@@ -128,7 +128,7 @@
       "description": "Continuously update the JavaScript bundle from src/app/voetbalpool/voetbalpool.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
         }
       ]
     },
@@ -222,7 +222,8 @@
       "name": "eslint",
       "description": "Runs eslint against the codebase",
       "env": {
-        "ESLINT_USE_FLAT_CONFIG": "false"
+        "ESLINT_USE_FLAT_CONFIG": "false",
+        "NODE_NO_WARNINGS": "1"
       },
       "steps": [
         {
@@ -376,13 +377,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-sdk/types,@axe-core/playwright,@glen/jest-raw-loader,@playwright/test,@types/aws-lambda,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,projen,ts-jest,ts-node,typescript,@aws-cdk/aws-apigatewayv2-alpha,@aws-cdk/aws-apigatewayv2-integrations-alpha,@aws-lambda-powertools/logger,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@gemeentenijmegen/webapp,@types/mustache,axios,cdk-remote-stack,cookie,dotenv,mustache,object-mapper,openid-client,xml2js"
+          "exec": "npx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-sdk/types,@axe-core/playwright,@glen/jest-raw-loader,@playwright/test,@types/aws-lambda,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,ts-jest,ts-node,typescript,@aws-cdk/aws-apigatewayv2-alpha,@aws-cdk/aws-apigatewayv2-integrations-alpha,@aws-lambda-powertools/logger,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/cross-region-parameters,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@gemeentenijmegen/webapp,@types/mustache,axios,cdk-remote-stack,cookie,dotenv,jose,mustache,object-mapper,openid-client,xml2js"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-sdk/types @axe-core/playwright @glen/jest-raw-loader @playwright/test @stylistic/eslint-plugin @types/aws-lambda @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-client-mock axios-mock-adapter commit-and-tag-version copyfiles esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit projen ts-jest ts-node typescript @aws-cdk/aws-apigatewayv2-alpha @aws-cdk/aws-apigatewayv2-integrations-alpha @aws-lambda-powertools/logger @aws-sdk/client-dynamodb @aws-sdk/client-secrets-manager @aws-solutions-constructs/aws-lambda-dynamodb @gemeentenijmegen/apiclient @gemeentenijmegen/apigateway-http @gemeentenijmegen/aws-constructs @gemeentenijmegen/projen-project-type @gemeentenijmegen/session @gemeentenijmegen/utils @gemeentenijmegen/webapp @types/mustache aws-cdk-lib axios cdk-remote-stack constructs cookie dotenv mustache object-mapper openid-client xml2js"
+          "exec": "yarn upgrade @aws-sdk/types @axe-core/playwright @glen/jest-raw-loader @playwright/test @stylistic/eslint-plugin @types/aws-lambda @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-client-mock axios-mock-adapter commit-and-tag-version copyfiles esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit projen ts-jest ts-node typescript @aws-cdk/aws-apigatewayv2-alpha @aws-cdk/aws-apigatewayv2-integrations-alpha @aws-lambda-powertools/logger @aws-sdk/client-dynamodb @aws-sdk/client-secrets-manager @aws-solutions-constructs/aws-lambda-dynamodb @gemeentenijmegen/apiclient @gemeentenijmegen/apigateway-http @gemeentenijmegen/aws-constructs @gemeentenijmegen/cross-region-parameters @gemeentenijmegen/projen-project-type @gemeentenijmegen/session @gemeentenijmegen/utils @gemeentenijmegen/webapp @types/mustache aws-cdk-lib axios cdk-remote-stack constructs cookie dotenv jose mustache object-mapper openid-client xml2js"
         },
         {
           "exec": "npx projen"

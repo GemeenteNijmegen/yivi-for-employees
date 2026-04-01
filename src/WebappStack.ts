@@ -1,4 +1,5 @@
-import { Webapp, Webpage } from '@gemeentenijmegen/webapp';
+import { RemoteParameters } from '@gemeentenijmegen/cross-region-parameters';
+import { Criticality, Webapp, Webpage } from '@gemeentenijmegen/webapp';
 import { Duration, Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { HttpMethod } from 'aws-cdk-lib/aws-apigatewayv2';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
@@ -6,7 +7,6 @@ import { ITable, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
-import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
 import { DiscloseFunction } from './app/disclose/disclose-function';
 import { IssueFunction } from './app/issue/issue-function';
@@ -67,6 +67,7 @@ export class WebappStack extends Stack {
       oidcProfiles: props.configuration.oidcProfiles,
       cspHeaderValue: this.getCspHeader(props.configuration.cspAllowedConnections),
       alternativeDomainNames: props.configuration.alternativeDomainName ? [props.configuration.alternativeDomainName] : undefined,
+      criticality: new Criticality('low'),
     });
 
     /**
@@ -80,6 +81,7 @@ export class WebappStack extends Stack {
     this.addIssuePage(webapp, props);
     this.addDisclosurePage(webapp, props, userTable);
     this.addVoetbalpool(webapp, userTable);
+    this.addVoetbalpoolHAN(webapp, userTable);
   }
 
   /**
@@ -142,6 +144,23 @@ export class WebappStack extends Stack {
     });
     userTable.grantReadWriteData(voetbalpoolFunction.lambda);
     webapp.addPage('voetbalpool', voetbalpoolFunction, '/voetbalpool', [HttpMethod.POST]);
+  }
+
+  /**
+   * Add a disclosure page to the webapp
+   * @param webapp
+   */
+  addVoetbalpoolHAN(webapp: Webapp, userTable: ITable) {
+    const voetbalpoolFunction = new Webpage(this, 'voetbalpool-han-function', {
+      description: 'Voetbalpool lambda (HAN)',
+      apiFunction: VoetbalpoolFunction,
+      environment: {
+        USER_TABLE_NAME: userTable.tableName,
+        FOR_ORGANIZATION: 'HAN',
+      },
+    });
+    userTable.grantReadWriteData(voetbalpoolFunction.lambda);
+    webapp.addPage('voetbalpool-han', voetbalpoolFunction, '/voetbalpool-han', [HttpMethod.POST]);
   }
 
   /**

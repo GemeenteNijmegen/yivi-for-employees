@@ -1,3 +1,4 @@
+import { RemoteParameters } from '@gemeentenijmegen/cross-region-parameters';
 import {
   Aws,
   Duration,
@@ -17,7 +18,6 @@ import {
 import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
-import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
 import { Configurable } from './Configuration';
 import { EcsFargateService } from './constructs/EcsFargateService';
