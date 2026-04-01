@@ -1,8 +1,7 @@
 import { DynamoDBClient, GetItemCommand, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { ApiGatewayV2Response, Response } from '@gemeentenijmegen/apigateway-http/lib/V2/Response';
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
-import * as jwt from 'jsonwebtoken';
-import * as jwks from 'jwks-rsa';
+import { createRemoteJWKSet, jwtVerify } from 'jose';
 
 const db = new DynamoDBClient({});
 
@@ -25,7 +24,7 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<ApiGateway
     if (!process.env.FOR_ORGANIZATION) {
       validateForNijmegen(obj);
     } else if (process.env.FOR_ORGANIZATION == 'HAN') {
-      validateForHan(obj);
+      await validateForHan(obj);
     }
 
 
@@ -66,34 +65,18 @@ function validateForNijmegen(obj: any) {
   }
 }
 
-function validateForHan(obj: any) {
+const JWKS = createRemoteJWKSet(new URL('https://ssi.oauth.ver.id/jwks.json'));
 
-  // Get token from body
+async function validateForHan(obj: any) {
   const token = obj.token;
   if (!token) {
     throw new HttpError(400, 'Missing JWT');
   }
 
-  // Verify JWT jusing jwks
-  function getKey(header: any, callback: any) {
-    var client = new jwks.JwksClient({
-      jwksUri: 'https://ssi.oauth.ver.id/jwks.json',
-    });
-    client.getSigningKey(header.kid, function (err: any, key: any) {
-      var signingKey = key.publicKey || key.rsaPublicKey;
-      callback(null, signingKey);
-    });
-  }
-  jwt.verify(token, getKey);
+  const { payload } = await jwtVerify(token, JWKS);
 
-  // Decode JWT
-  const decoded = jwt.decode(token, { complete: true, json: true });
-
-  // Validate emails
-  const jwtEmail = (decoded?.payload as any).email;
-  const emailBody = obj.email;
-  if (jwtEmail != emailBody) {
-    throw Error('Emails do not match');
+  if ((payload as any).email != obj.email) {
+    throw new Error('Emails do not match');
   }
 }
 

@@ -30,9 +30,7 @@ const project = new GemeenteNijmegenCdkApp({
     'openid-client',
     'xml2js',
     'object-mapper',
-    '@types/jsonwebtoken',
-    'jsonwebtoken',
-    'jwks-rsa',
+    'jose',
   ],
   devDeps: [
     '@types/aws-lambda',
