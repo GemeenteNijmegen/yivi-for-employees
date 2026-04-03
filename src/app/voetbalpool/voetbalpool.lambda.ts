@@ -12,7 +12,7 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<ApiGateway
     if (!body) {
       throw new HttpError(400, 'No body');
     }
-    if (body.length > 400) {
+    if (body.length > 2000) {
       throw new HttpError(400, 'Too big');
     }
 
@@ -77,7 +77,9 @@ async function validateForHan(obj: any) {
 
   const { payload } = await jwtVerify(token, JWKS);
 
-  if ((payload as any).email != obj.email) {
+  const emailFromJwt = (payload as any).mapping?.email?.attributes?.[0]?.value;
+
+  if (emailFromJwt != obj.email) {
     throw new Error('Emails do not match');
   }
 }
