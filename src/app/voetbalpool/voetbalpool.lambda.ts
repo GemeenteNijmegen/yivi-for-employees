@@ -27,7 +27,6 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<ApiGateway
       await validateForHan(obj);
     }
 
-
     const check = await db.send(new GetItemCommand({
       Key: { pk: { S: obj.email } },
       TableName: process.env.USER_TABLE_NAME,
@@ -46,6 +45,8 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<ApiGateway
         organization: { S: org },
       },
     }));
+
+    console.log('Response saved!');
 
 
     return Response.json({
@@ -77,11 +78,14 @@ async function validateForHan(obj: any) {
 
   const { payload } = await jwtVerify(token, JWKS);
 
-  const emailFromJwt = (payload as any).mapping?.email?.attributes?.[0]?.value;
+  const emailFromJwt = (payload as any).output?.[0]?.mapping?.email?.attributes?.[0]?.value;
+
 
   if (emailFromJwt != obj.email) {
     throw new Error('Emails do not match');
   }
+  console.log('HAN Validation succesfull');
+
 }
 
 
