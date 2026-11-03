@@ -13,4 +13,4 @@ mkdir /storage/irma/privatekeys
 echo "$IRMA_GEMEENTE_PRIVKEY" > /storage/irma/privatekeys/pbdf.nijmegen.xml
 
 echo "Starting irma server with custom config file"
-irma server --config /storage/irma/irma_config.json
+irma irma server --config /storage/irma/irma_config.json
