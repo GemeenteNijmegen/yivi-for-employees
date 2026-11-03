@@ -14,7 +14,12 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": "./tsconfig.dev.json"
+    "projectService": {
+      "allowDefaultProject": [
+        ".projenrc.js"
+      ],
+      "defaultProject": "./tsconfig.json"
+    }
   },
   "extends": [
     "plugin:import/typescript"
@@ -29,7 +34,7 @@
     "import/resolver": {
       "node": {},
       "typescript": {
-        "project": "./tsconfig.dev.json",
+        "project": "./tsconfig.json",
         "alwaysTryTypes": true
       }
     }
@@ -161,7 +166,8 @@
           "src/app/disclose/disclose.lambda.ts",
           "src/app/issue/issue.lambda.ts",
           "src/app/post-login/postlogin.lambda.ts",
-          "src/app/voetbalpool/voetbalpool.lambda.ts"
+          "src/app/voetbalpool/voetbalpool.lambda.ts",
+          ".projenrc.js"
         ],
         "optionalDependencies": false,
         "peerDependencies": true
