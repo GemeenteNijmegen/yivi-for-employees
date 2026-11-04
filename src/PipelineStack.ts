@@ -6,6 +6,8 @@ import { Configurable } from './Configuration';
 import { ContainerStage } from './ContainerStage';
 import { ParameterStage } from './ParameterStage';
 import { Statics } from './Statics';
+import { Cache, LocalCacheMode, BuildSpec } from 'aws-cdk-lib/aws-codebuild';
+import { PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 
 export interface PipelineStackProps extends StackProps, Configurable { }
 
@@ -45,11 +47,10 @@ export class PipelineStack extends Stack {
         BRANCH_NAME: this.branchName,
       },
       installCommands: [
-        'n 22',
+        `n ${GmeenteNijmegenCdkApp.}`,
       ],
       commands: [
-        'yarn install --frozen-lockfile',
-        'yarn build',
+        'npx projen build',
       ],
     });
 
@@ -57,13 +58,38 @@ export class PipelineStack extends Stack {
       pipelineName: props.configuration.pipelineName,
       crossAccountKeys: true,
       synth: synthStep,
+      pipelineType: PipelineType.V1,
+      synthCodeBuildDefaults: {
+        cache: Cache.local(LocalCacheMode.CUSTOM),
+        partialBuildSpec: BuildSpec.fromObject({
+          phases: {
+            install: {
+              'runtime-versions': {
+                nodejs: getNodeVersion(),
+              },
+            },
+          },
+          cache: {
+            paths: ['node_modules'],
+          },
+        }),
+      },
     });
     return pipeline;
   }
 
-  private connectionSource(connectionArn: CfnParameter): pipelines.CodePipelineSource {
-    return pipelines.CodePipelineSource.connection('GemeenteNijmegen/yivi-for-employees', this.branchName, {
-      connectionArn: connectionArn.valueAsString,
-    });
+
+  const pipeline = new pipelines.CodePipeline(this, props.configuration.pipelineName, {
+    pipelineName: props.configuration.pipelineName,
+    crossAccountKeys: true,
+    synth: synthStep,
+  });
+    return pipeline;
   }
+
+  private connectionSource(connectionArn: CfnParameter): pipelines.CodePipelineSource {
+  return pipelines.CodePipelineSource.connection('GemeenteNijmegen/yivi-for-employees', this.branchName, {
+    connectionArn: connectionArn.valueAsString,
+  });
+}
 }
