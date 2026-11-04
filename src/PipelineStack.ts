@@ -1,13 +1,14 @@
 import { PermissionsBoundaryAspect } from '@gemeentenijmegen/aws-constructs';
+import { getNodeVersion } from '@gemeentenijmegen/projen-project-type';
 import { Aspects, CfnParameter, Stack, StackProps, Tags, pipelines } from 'aws-cdk-lib';
+import { BuildSpec, Cache, LocalCacheMode } from 'aws-cdk-lib/aws-codebuild';
+import { PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
 import { AppStage } from './AppStage';
 import { Configurable } from './Configuration';
 import { ContainerStage } from './ContainerStage';
 import { ParameterStage } from './ParameterStage';
 import { Statics } from './Statics';
-import { Cache, LocalCacheMode, BuildSpec } from 'aws-cdk-lib/aws-codebuild';
-import { PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 
 export interface PipelineStackProps extends StackProps, Configurable { }
 
@@ -46,10 +47,8 @@ export class PipelineStack extends Stack {
       env: {
         BRANCH_NAME: this.branchName,
       },
-      installCommands: [
-        `n ${GmeenteNijmegenCdkApp.}`,
-      ],
       commands: [
+        'npm ci',
         'npx projen build',
       ],
     });
@@ -78,18 +77,9 @@ export class PipelineStack extends Stack {
     return pipeline;
   }
 
-
-  const pipeline = new pipelines.CodePipeline(this, props.configuration.pipelineName, {
-    pipelineName: props.configuration.pipelineName,
-    crossAccountKeys: true,
-    synth: synthStep,
-  });
-    return pipeline;
-  }
-
   private connectionSource(connectionArn: CfnParameter): pipelines.CodePipelineSource {
-  return pipelines.CodePipelineSource.connection('GemeenteNijmegen/yivi-for-employees', this.branchName, {
-    connectionArn: connectionArn.valueAsString,
-  });
-}
+    return pipelines.CodePipelineSource.connection('GemeenteNijmegen/yivi-for-employees', this.branchName, {
+      connectionArn: connectionArn.valueAsString,
+    });
+  }
 }
