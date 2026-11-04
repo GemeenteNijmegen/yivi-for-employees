@@ -1,3 +1,4 @@
+
 const { GemeenteNijmegenCdkApp } = require('@gemeentenijmegen/projen-project-type');
 const project = new GemeenteNijmegenCdkApp({
   cdkVersion: '2.22.0',
@@ -45,6 +46,7 @@ const project = new GemeenteNijmegenCdkApp({
     '@glen/jest-raw-loader',
   ], /* Build dependencies for this module. */
   mutableBuild: true,
+  projenrcTs: true,
   jestOptions: {
     jestConfig: {
       setupFiles: ['dotenv/config'],

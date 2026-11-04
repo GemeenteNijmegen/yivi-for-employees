@@ -1,4 +1,8 @@
 {
+  "manifestVersion": 3,
+  "env": {
+    "PATH": "$(npx -c \"node --print process.env.PATH\")"
+  },
   "tasks": {
     "build": {
       "name": "build",
@@ -33,14 +37,36 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "BUMP_PACKAGE": "commit-and-tag-version@^12"
+        "BUMP_PACKAGE": "commit-and-tag-version@^13"
       },
       "steps": [
         {
-          "builtin": "release/bump-version"
+          "builtin": "release/resolve-latest-tag",
+          "outputEnv": "LATEST_TAG"
+        },
+        {
+          "spawn": "bump:releasable-commits",
+          "outputEnv": "RELEASABLE_COMMITS",
+          "condition": "git rev-parse --verify --quiet \"refs/tags/$LATEST_TAG\""
+        },
+        {
+          "builtin": "release/suggest-version-bump",
+          "outputEnv": "SUGGESTED_BUMP"
+        },
+        {
+          "builtin": "release/apply-version-bump"
         }
       ],
-      "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null"
+    },
+    "bump:releasable-commits": {
+      "name": "bump:releasable-commits",
+      "description": "Print the releasable commits since the latest release",
+      "steps": [
+        {
+          "exec": "git log --oneline $LATEST_TAG..HEAD"
+        }
+      ]
     },
     "bundle": {
       "name": "bundle",
@@ -65,7 +91,18 @@
       "description": "Create a JavaScript bundle from src/app/disclose/disclose.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/disclose/disclose.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/disclose/disclose.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text"
+          ]
         }
       ]
     },
@@ -74,7 +111,19 @@
       "description": "Continuously update the JavaScript bundle from src/app/disclose/disclose.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/disclose/disclose.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/disclose/disclose.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/disclose/disclose.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/disclose/disclose.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text",
+            "--watch"
+          ]
         }
       ]
     },
@@ -83,7 +132,18 @@
       "description": "Create a JavaScript bundle from src/app/issue/issue.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/issue/issue.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/issue/issue.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/issue/issue.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/issue/issue.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text"
+          ]
         }
       ]
     },
@@ -92,7 +152,19 @@
       "description": "Continuously update the JavaScript bundle from src/app/issue/issue.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/issue/issue.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/issue/issue.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/issue/issue.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/issue/issue.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text",
+            "--watch"
+          ]
         }
       ]
     },
@@ -101,7 +173,18 @@
       "description": "Create a JavaScript bundle from src/app/post-login/postlogin.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/post-login/postlogin.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/post-login/postlogin.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/post-login/postlogin.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/post-login/postlogin.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text"
+          ]
         }
       ]
     },
@@ -110,7 +193,19 @@
       "description": "Continuously update the JavaScript bundle from src/app/post-login/postlogin.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/post-login/postlogin.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/post-login/postlogin.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/post-login/postlogin.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/post-login/postlogin.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text",
+            "--watch"
+          ]
         }
       ]
     },
@@ -119,7 +214,18 @@
       "description": "Create a JavaScript bundle from src/app/voetbalpool/voetbalpool.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/voetbalpool/voetbalpool.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/voetbalpool/voetbalpool.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text"
+          ]
         }
       ]
     },
@@ -128,7 +234,28 @@
       "description": "Continuously update the JavaScript bundle from src/app/voetbalpool/voetbalpool.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/app/voetbalpool/voetbalpool.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/app/voetbalpool/voetbalpool.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --loader:.mustache=text --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/app/voetbalpool/voetbalpool.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/app/voetbalpool/voetbalpool.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--external:@aws-sdk/*",
+            "--loader:.mustache=text",
+            "--watch"
+          ]
+        }
+      ]
+    },
+    "cfn-lint": {
+      "name": "cfn-lint",
+      "description": "Lint synthesized CloudFormation templates",
+      "steps": [
+        {
+          "exec": "cfn-lint cdk.out/**/*.template.json -i W3005 W2001"
         }
       ]
     },
@@ -140,22 +267,35 @@
       },
       "steps": [
         {
-          "exec": "git checkout -b scratch",
+          "execArgs": [
+            "git",
+            "checkout",
+            "-b",
+            "scratch"
+          ],
           "name": "save current HEAD in \"scratch\" branch"
         },
         {
-          "exec": "git checkout $BRANCH"
+          "exec": "git checkout \"$BRANCH\""
         },
         {
-          "exec": "git fetch origin",
+          "execArgs": [
+            "git",
+            "fetch",
+            "origin"
+          ],
           "name": "fetch latest changes from origin"
         },
         {
-          "exec": "git reset --hard origin/$BRANCH",
+          "exec": "git reset --hard \"origin/$BRANCH\"",
           "name": "hard reset to origin commit"
         },
         {
-          "exec": "git clean -fdx",
+          "execArgs": [
+            "git",
+            "clean",
+            "-fdx"
+          ],
           "name": "clean all untracked files"
         },
         {
@@ -173,7 +313,12 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "node .projenrc.js"
+          "execArgs": [
+            "ts-node",
+            "--project",
+            "projenrc/tsconfig.json",
+            ".projenrc.ts"
+          ]
         }
       ]
     },
@@ -182,7 +327,10 @@
       "description": "Deploys your CDK app to the AWS cloud",
       "steps": [
         {
-          "exec": "cdk deploy",
+          "execArgs": [
+            "cdk",
+            "deploy"
+          ],
           "receiveArgs": true
         }
       ]
@@ -192,7 +340,10 @@
       "description": "Destroys your cdk app in the AWS cloud",
       "steps": [
         {
-          "exec": "cdk destroy",
+          "execArgs": [
+            "cdk",
+            "destroy"
+          ],
           "receiveArgs": true
         }
       ]
@@ -202,7 +353,10 @@
       "description": "Diffs the currently deployed app against your code",
       "steps": [
         {
-          "exec": "cdk diff"
+          "execArgs": [
+            "cdk",
+            "diff"
+          ]
         }
       ]
     },
@@ -227,7 +381,25 @@
       },
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src src/app/login/tests src/app/auth/tests src/app/home/tests src/app/uitkeringen/tests src/app/logout/tests /test /build-tools src/shared/tests .projenrc.js",
+          "execArgs": [
+            "eslint",
+            "--ext",
+            ".ts,.tsx",
+            "--fix",
+            "--no-error-on-unmatched-pattern",
+            "$@",
+            "src",
+            "src/app/login/tests",
+            "src/app/auth/tests",
+            "src/app/home/tests",
+            "src/app/uitkeringen/tests",
+            "src/app/logout/tests",
+            "/test",
+            "/build-tools",
+            "src/shared/tests",
+            "projenrc",
+            ".projenrc.ts"
+          ],
           "receiveArgs": true
         }
       ]
@@ -237,7 +409,7 @@
       "description": "Install project dependencies and update lockfile (non-frozen)",
       "steps": [
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         }
       ]
     },
@@ -246,15 +418,7 @@
       "description": "Install project dependencies using frozen lockfile",
       "steps": [
         {
-          "exec": "yarn install --check-files --frozen-lockfile"
-        }
-      ]
-    },
-    "lint": {
-      "name": "lint",
-      "steps": [
-        {
-          "exec": "cfn-lint cdk.out/**/*.template.json -i W3005 W2001"
+          "exec": "npm ci"
         }
       ]
     },
@@ -263,10 +427,19 @@
       "description": "Creates the distribution package",
       "steps": [
         {
-          "exec": "mkdir -p dist/js"
+          "execArgs": [
+            "mkdir",
+            "-p",
+            "dist/js"
+          ]
         },
         {
-          "exec": "npm pack --pack-destination dist/js"
+          "execArgs": [
+            "npm",
+            "pack",
+            "--pack-destination",
+            "dist/js"
+          ]
         }
       ]
     },
@@ -296,7 +469,11 @@
       },
       "steps": [
         {
-          "exec": "rm -fr dist"
+          "execArgs": [
+            "rm",
+            "-fr",
+            "dist"
+          ]
         },
         {
           "spawn": "bump"
@@ -310,14 +487,18 @@
         {
           "exec": "git diff --ignore-space-at-eol --exit-code"
         }
-      ]
+      ],
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null"
     },
     "synth": {
       "name": "synth",
       "description": "Synthesizes your cdk app into cdk.out",
       "steps": [
         {
-          "exec": "cdk synth"
+          "execArgs": [
+            "cdk",
+            "synth"
+          ]
         }
       ]
     },
@@ -326,7 +507,11 @@
       "description": "Synthesizes your cdk app into cdk.out and suppresses the template in stdout (part of \"yarn build\")",
       "steps": [
         {
-          "exec": "cdk synth -q"
+          "execArgs": [
+            "cdk",
+            "synth",
+            "-q"
+          ]
         }
       ]
     },
@@ -335,7 +520,11 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "jest --passWithNoTests --updateSnapshot",
+          "execArgs": [
+            "jest",
+            "--passWithNoTests",
+            "--updateSnapshot"
+          ],
           "receiveArgs": true
         },
         {
@@ -348,7 +537,10 @@
       "description": "Run jest in watch mode",
       "steps": [
         {
-          "exec": "jest --watch"
+          "execArgs": [
+            "jest",
+            "--watch"
+          ]
         }
       ]
     },
@@ -361,7 +553,7 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "BUMP_PACKAGE": "commit-and-tag-version@^12"
+        "BUMP_PACKAGE": "commit-and-tag-version@^13"
       },
       "steps": [
         {
@@ -377,13 +569,76 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-sdk/types,@axe-core/playwright,@glen/jest-raw-loader,@playwright/test,@types/aws-lambda,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,ts-jest,ts-node,typescript,@aws-cdk/aws-apigatewayv2-alpha,@aws-cdk/aws-apigatewayv2-integrations-alpha,@aws-lambda-powertools/logger,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/cross-region-parameters,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@gemeentenijmegen/webapp,@types/mustache,axios,cdk-remote-stack,cookie,dotenv,jose,mustache,object-mapper,openid-client,xml2js"
+          "execArgs": [
+            "npx",
+            "npm-check-updates@20",
+            "--upgrade",
+            "--target=minor",
+            "--peer",
+            "--no-deprecated",
+            "--dep=dev,prod,peer,optional",
+            "--filter=@aws-sdk/types,@axe-core/playwright,@glen/jest-raw-loader,@playwright/test,@types/aws-lambda,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,projen,ts-jest,ts-node,typescript,@aws-cdk/aws-apigatewayv2-alpha,@aws-cdk/aws-apigatewayv2-integrations-alpha,@aws-lambda-powertools/logger,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/cross-region-parameters,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@gemeentenijmegen/webapp,@types/mustache,axios,cdk-remote-stack,cookie,dotenv,jose,mustache,object-mapper,openid-client,xml2js"
+          ]
         },
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         },
         {
-          "exec": "yarn upgrade @aws-sdk/types @axe-core/playwright @glen/jest-raw-loader @playwright/test @stylistic/eslint-plugin @types/aws-lambda @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-client-mock axios-mock-adapter commit-and-tag-version copyfiles esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit projen ts-jest ts-node typescript @aws-cdk/aws-apigatewayv2-alpha @aws-cdk/aws-apigatewayv2-integrations-alpha @aws-lambda-powertools/logger @aws-sdk/client-dynamodb @aws-sdk/client-secrets-manager @aws-solutions-constructs/aws-lambda-dynamodb @gemeentenijmegen/apiclient @gemeentenijmegen/apigateway-http @gemeentenijmegen/aws-constructs @gemeentenijmegen/cross-region-parameters @gemeentenijmegen/projen-project-type @gemeentenijmegen/session @gemeentenijmegen/utils @gemeentenijmegen/webapp @types/mustache aws-cdk-lib axios cdk-remote-stack constructs cookie dotenv jose mustache object-mapper openid-client xml2js"
+          "execArgs": [
+            "npm",
+            "update",
+            "@aws-sdk/types",
+            "@axe-core/playwright",
+            "@glen/jest-raw-loader",
+            "@playwright/test",
+            "@stylistic/eslint-plugin",
+            "@types/aws-lambda",
+            "@types/jest",
+            "@types/node",
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser",
+            "aws-cdk",
+            "aws-sdk-client-mock",
+            "axios-mock-adapter",
+            "commit-and-tag-version",
+            "copyfiles",
+            "esbuild",
+            "eslint-import-resolver-typescript",
+            "eslint-plugin-import",
+            "eslint",
+            "jest",
+            "jest-junit",
+            "projen",
+            "ts-jest",
+            "ts-node",
+            "typescript",
+            "@aws-cdk/aws-apigatewayv2-alpha",
+            "@aws-cdk/aws-apigatewayv2-integrations-alpha",
+            "@aws-lambda-powertools/logger",
+            "@aws-sdk/client-dynamodb",
+            "@aws-sdk/client-secrets-manager",
+            "@aws-solutions-constructs/aws-lambda-dynamodb",
+            "@gemeentenijmegen/apiclient",
+            "@gemeentenijmegen/apigateway-http",
+            "@gemeentenijmegen/aws-constructs",
+            "@gemeentenijmegen/cross-region-parameters",
+            "@gemeentenijmegen/projen-project-type",
+            "@gemeentenijmegen/session",
+            "@gemeentenijmegen/utils",
+            "@gemeentenijmegen/webapp",
+            "@types/mustache",
+            "aws-cdk-lib",
+            "axios",
+            "cdk-remote-stack",
+            "constructs",
+            "cookie",
+            "dotenv",
+            "jose",
+            "mustache",
+            "object-mapper",
+            "openid-client",
+            "xml2js"
+          ]
         },
         {
           "exec": "npx projen"
@@ -398,16 +653,20 @@
       "description": "Watches changes in your source code and rebuilds and deploys to the current account",
       "steps": [
         {
-          "exec": "cdk deploy --hotswap"
+          "execArgs": [
+            "cdk",
+            "deploy",
+            "--hotswap"
+          ]
         },
         {
-          "exec": "cdk watch"
+          "execArgs": [
+            "cdk",
+            "watch"
+          ]
         }
       ]
     }
   },
-  "env": {
-    "PATH": "$(npx -c \"node --print process.env.PATH\")"
-  },
-  "//": "~~ Generated by projen. To modify, edit .projenrc.js and run \"npx projen\"."
+  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"npx projen\"."
 }

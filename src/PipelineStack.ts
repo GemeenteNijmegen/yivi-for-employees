@@ -1,5 +1,8 @@
 import { PermissionsBoundaryAspect } from '@gemeentenijmegen/aws-constructs';
+import { getNodeVersion } from '@gemeentenijmegen/projen-project-type';
 import { Aspects, CfnParameter, Stack, StackProps, Tags, pipelines } from 'aws-cdk-lib';
+import { BuildSpec, Cache, LocalCacheMode } from 'aws-cdk-lib/aws-codebuild';
+import { PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
 import { AppStage } from './AppStage';
 import { Configurable } from './Configuration';
@@ -44,12 +47,9 @@ export class PipelineStack extends Stack {
       env: {
         BRANCH_NAME: this.branchName,
       },
-      installCommands: [
-        'n 22',
-      ],
       commands: [
-        'yarn install --frozen-lockfile',
-        'yarn build',
+        'npm ci',
+        'npx projen build',
       ],
     });
 
@@ -57,6 +57,22 @@ export class PipelineStack extends Stack {
       pipelineName: props.configuration.pipelineName,
       crossAccountKeys: true,
       synth: synthStep,
+      pipelineType: PipelineType.V1,
+      synthCodeBuildDefaults: {
+        cache: Cache.local(LocalCacheMode.CUSTOM),
+        partialBuildSpec: BuildSpec.fromObject({
+          phases: {
+            install: {
+              'runtime-versions': {
+                nodejs: getNodeVersion(),
+              },
+            },
+          },
+          cache: {
+            paths: ['node_modules'],
+          },
+        }),
+      },
     });
     return pipeline;
   }
